@@ -1,6 +1,6 @@
 ## Stacked Dense U-Nets for Face Alignment
 
-The Mxnet implementation of Jia Guo's work ``Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment`` at [BMVC](http://bmvc2018.org/contents/papers/0051.pdf) or link at [Arxiv](https://arxiv.org/abs/1812.01936). The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
+The Mxnet implementation of Jia Guo's work ``Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment`` at [BMVC](http://bmvc2018.org/contents/papers/0051.pdf) or link at [Arxiv](https://arxiv.org/abs/1812.01936). 
 
 Some popular heatmap based approaches like stacked hourglass are also provided in this repository.  
 
@@ -9,6 +9,8 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1VjFWm6eEtIqGKk92GE2rgw)
 
 Pre-trained models will come soon.
+
+The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
 
 ## Environment
 
