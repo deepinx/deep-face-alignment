@@ -42,10 +42,11 @@ MIT LICENSE
 ## Reference
 
 ```
-@article{Guo2018Stacked,
+@article{guo2018stacked,
   title={Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment},
   author={Guo, Jia and Deng, Jiankang and Xue, Niannan and Zafeiriou, Stefanos},
-  year={2018},
+  journal={arXiv preprint arXiv:1812.01936},
+  year={2018}
 }
 ```
 
