@@ -10,7 +10,6 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 
 Pre-trained models will come soon.
 
-The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
 
 ## Environment
 
@@ -49,4 +48,8 @@ MIT LICENSE
   year={2018}
 }
 ```
+
+## Acknowledgment
+
+The code is adapted based on an intial fork from the [insightface](https://github.com/deepinsight/insightface) repository.
 
