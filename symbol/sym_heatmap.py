@@ -576,7 +576,7 @@ def get_symbol(num_classes):
       loss = mx.symbol.MakeLoss(loss)
       syms.append(loss)
     if len(closses)>0:
-        coherent_weight = 0.0001
+        coherent_weight = 0.001  #0.0001
         closs = mx.symbol.add_n(*closses)
         closs = mx.symbol.MakeLoss(closs, grad_scale = coherent_weight)
         syms.append(closs)

@@ -8,7 +8,12 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 
 3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ).
 
-Pre-trained models will come soon.
+Pre-trained models can be downloaded from [baiducloud]() or [googledrive](https://drive.google.com/open?id=1_Op6zSkT-uhJJzsHmR-6juWJBotcbE2Z).
+
+| Network    | NME on AFLW2000-3D  |
+  :------:   | :----:  | 
+| SDU-Net Official    |  3.07%  |
+| SDU-Net Ours        |  **3.24%**  |
 
 
 ## Environment
@@ -33,7 +38,9 @@ This repository has been tested under the following environment:
 
 ## Testing
 
-  You can use `python test.py` to test this alignment method.
+  -  Download the pre-trained model and place it in *`./model/`*.
+
+  -  You can use `python test.py` to test this alignment method.
 
 ## License
 

@@ -30,7 +30,7 @@ network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
 network.sdu = edict()
-network.sdu.net_coherent = False   # default: False
+network.sdu.net_coherent = True   # default: False
 network.sdu.net_sta = 1
 network.sdu.net_n = 3
 network.sdu.net_dcn = 3
@@ -46,7 +46,7 @@ dataset = edict()
 dataset.i2d = edict()
 dataset.i2d.dataset = '2D'
 dataset.i2d.landmark_type = '2d'
-dataset.i2d.dataset_path = '/media/3T_disk/my_datasets/data_2d'
+dataset.i2d.dataset_path = '/media/3T_disk/my_datasets/sdu_net/data_2d'
 dataset.i2d.num_classes = 68
 dataset.i2d.record_img_size = 384
 dataset.i2d.base_scale = 256
@@ -58,7 +58,7 @@ dataset.i2d.val_targets = ['ibug', 'cofw_testset', '300W']
 dataset.i3d = edict()
 dataset.i3d.dataset = '3D'
 dataset.i3d.landmark_type = '3d'
-dataset.i3d.dataset_path = '/media/3T_disk/my_datasets/data_3d'
+dataset.i3d.dataset_path = '/media/3T_disk/my_datasets/sdu_net/data_3d'
 dataset.i3d.num_classes = 68
 dataset.i3d.record_img_size = 384
 dataset.i3d.base_scale = 256
@@ -83,9 +83,9 @@ default.kvstore = 'device'
 
 default.prefix = 'model/sdu'
 default.end_epoch = 10000
-default.lr = 0.00025
+default.lr = 0.000002  #0.00025
 default.wd = 0.0
-default.per_batch_size = 16
+default.per_batch_size = 16   #20
 default.lr_step = '16000,24000,30000'
 
 def generate_config(_network, _dataset):
