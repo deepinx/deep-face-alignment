@@ -8,7 +8,7 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 
 3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ).
 
-Pre-trained models can be downloaded from [baiducloud]() or [googledrive](https://drive.google.com/open?id=1_Op6zSkT-uhJJzsHmR-6juWJBotcbE2Z).
+Pre-trained models can be downloaded from [baiducloud]() or [googledrive]().
 
 | Network    | NME on AFLW2000-3D  |
   :------:   | :----:  | 
