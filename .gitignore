@@ -98,9 +98,11 @@ ENV/
 /site
 
 # mypy
-*.params
-*.json
 .mypy_cache/
+model_2d/*.params
+model_2d/*.json
+model_3d/*.params
+model_3d/*.json
 model_2d_2/
 model_2d_3/
 model_3d_2/

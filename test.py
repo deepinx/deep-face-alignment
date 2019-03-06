@@ -6,7 +6,6 @@ import os
 import mxnet as mx
 import datetime
 import img_helper
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'MTCNN'))
 from mtcnn_detector import MtcnnDetector
 
 
@@ -27,7 +26,7 @@ class Handler:
     model.bind(for_training=False, data_shapes=[('data', (1, 3, image_size[0], image_size[1]))])
     model.set_params(arg_params, aux_params)
     self.model = model
-    mtcnn_path = os.path.join(os.path.dirname(__file__), '..', 'MTCNN', 'model')
+    mtcnn_path = os.path.join(os.path.dirname(__file__),  'mtcnn_model')
     self.det_threshold = [0.6,0.7,0.8]
     self.detector = MtcnnDetector(model_folder=mtcnn_path, ctx=mx.cpu(), num_worker=1, accurate_landmark = True, threshold=self.det_threshold)
   
@@ -70,7 +69,7 @@ img_path = './sample-images/t1.jpg'
 img = cv2.imread(img_path)
 #img = np.zeros( (128,128,3), dtype=np.uint8 )
 
-handler = Handler('./model_2d_3/sdu', 60, ctx_id)
+handler = Handler('./model_3d/sdu', 0, ctx_id)
 for _ in range(2):
   ta = datetime.datetime.now() 
   ret, M2 = handler.get(img)
