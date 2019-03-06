@@ -8,18 +8,18 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 
 3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) and [googledrive](https://drive.google.com/open?id=1-EoOiDVDK6DX3qqbExnpdCT3zV0M6QgS).
 
-2D pre-trained models can be downloaded from [baiducloud](https://pan.baidu.com/s/18ON8tQV_KV8EL9mpe6ZGLw) code:yzgl or [googledrive](https://drive.google.com/open?id=1_Op6zSkT-uhJJzsHmR-6juWJBotcbE2Z).
+2D pre-trained model can be downloaded from [baiducloud]() or [googledrive](). (Coming Soon)
 
-NME on test datasets:
+NME of 2D pre-trained model on test datasets:
 
 | Network    | IBUG  |  COFW  |
 |  :------:   | :----:  |  :----:  |
 | SDU-Net Official    |  6.73%  |  5.55%  |
-| SDU-Net Ours        |  **--**  |  **--**  |
+| SDU-Net Ours        |  **–**  |  **–**  |
 
-3D pre-trained models can be downloaded from [baiducloud]() or [googledrive]().
+3D pre-trained model can be downloaded from [baiducloud](https://pan.baidu.com/s/18ON8tQV_KV8EL9mpe6ZGLw) (**code: yzgl**) or [googledrive](https://drive.google.com/open?id=1_Op6zSkT-uhJJzsHmR-6juWJBotcbE2Z).
 
-NME on test datasets:
+NME of 3D pre-trained model on test datasets:
 
 | Network    | AFLW2000-3D  |
 |  :------:   | :----:  | 
