@@ -101,7 +101,7 @@ ENV/
 *.params
 *.json
 .mypy_cache/
-models/
-model2/
-model3/
+model_2d_2/
+model_2d_3/
+model_3d_2/
 .vscode/

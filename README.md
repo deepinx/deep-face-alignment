@@ -4,13 +4,22 @@ The Mxnet implementation of Jia Guo's work ``Stacked Dense U-Nets with Dual Tran
 
 Some popular heatmap based approaches like stacked hourglass are also provided in this repository.  
 
-2D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A).
+2D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A) and [googledrive]().
 
-3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ).
+3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) and [googledrive]().
 
-Pre-trained models can be downloaded from [baiducloud]() or [googledrive]().
+2D pre-trained models can be downloaded from [baiducloud]() or [googledrive]().
 
-| Network    | NME on AFLW2000-3D  |
+NME on test datasets:
+| Network    | IBUG  |  COFW  |
+  :------:   | :----:  |  :----:  |
+| SDU-Net Official    |  6.73%  |  5.55%  |
+| SDU-Net Ours        |  **--**  |  **--**  |
+
+3D pre-trained models can be downloaded from [baiducloud]() or [googledrive]().
+
+NME on test datasets:
+| Network    | AFLW2000-3D  |
   :------:   | :----:  | 
 | SDU-Net Official    |  3.07%  |
 | SDU-Net Ours        |  **3.24%**  |

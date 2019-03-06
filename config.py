@@ -76,14 +76,14 @@ default.network = 'sdu'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset
-default.dataset = 'i3d'
+default.dataset = 'i2d'
 default.frequent = 20
 default.verbose = 200
 default.kvstore = 'device'
 
 default.prefix = 'model/sdu'
 default.end_epoch = 10000
-default.lr = 0.000002  #0.00025
+default.lr = 0.00001  #0.00025
 default.wd = 0.0
 default.per_batch_size = 16   #20
 default.lr_step = '16000,24000,30000'
