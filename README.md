@@ -12,7 +12,7 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 
 NME on test datasets:
 | Network    | IBUG  |  COFW  |
-  :------:   | :----:  |  :----:  |
+|  :------:   | :----:  |  :----:  |
 | SDU-Net Official    |  6.73%  |  5.55%  |
 | SDU-Net Ours        |  **--**  |  **--**  |
 
@@ -20,7 +20,7 @@ NME on test datasets:
 
 NME on test datasets:
 | Network    | AFLW2000-3D  |
-  :------:   | :----:  | 
+|  :------:   | :----:  | 
 | SDU-Net Official    |  3.07%  |
 | SDU-Net Ours        |  **3.24%**  |
 
