@@ -4,9 +4,9 @@ The Mxnet implementation of Jia Guo's work ``Stacked Dense U-Nets with Dual Tran
 
 Some popular heatmap based approaches like stacked hourglass are also provided in this repository.  
 
-2D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A) and [googledrive](https://drive.google.com/open?id=1-EoOiDVDK6DX3qqbExnpdCT3zV0M6QgS).
+2D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A) and [googledrive](https://drive.google.com/open?id=1XyZ5yFm-MGNlUiGG0dYRHRTdRiS33zPb).
 
-3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) and [googledrive](https://drive.google.com/open?id=1-EoOiDVDK6DX3qqbExnpdCT3zV0M6QgS).
+3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) and [googledrive](https://drive.google.com/open?id=1i-gUFJhtiZP3uCmNbhLCzd4C4fb-Ljhk).
 
 2D pre-trained model can be downloaded from [baiducloud]() or [googledrive](). (Coming Soon)
 
