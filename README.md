@@ -1,6 +1,12 @@
 ## Stacked Dense U-Nets for Face Alignment
 
-The Mxnet implementation of Jia Guo's work ``Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment`` at [BMVC](http://bmvc2018.org/contents/papers/0051.pdf) or link at [Arxiv](https://arxiv.org/abs/1812.01936). 
+The Mxnet implementation of the most recent state-of-the-art 2D and 3D face alignment method ``Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment`` at [BMVC](http://bmvc2018.org/contents/papers/0051.pdf) or link at [Arxiv](https://arxiv.org/abs/1812.01936). This proposed stacked dense U-Nets (SDU-Net) with dual transformers can get the normalised mean error (NME) of 6.73% and 5.55% respectively on IBUG and COFW datasets for 2D face alignment. For 3D face alignment, this method further decreases the NME by 5.8% with former state-of-the-art method (HPM) proposed by Bulat et al on AFLW2000-3D.
+
+3D alignment results on the AFLW2000-3D dataset:
+
+| Method    | ESR   |  RCPR   |  SDM   | 3DDFA  |  HPM  | SDU-Net |
+|  :------: | :----:  |  :----:  |  :----:   |  :----:  |  :----:   |  :----:  |
+|   NME     |   7.99   |   7.80   |   6.12   |   4.94   |   3.26   |   3.07   |
 
 Some popular heatmap based approaches like stacked hourglass are also provided in this repository.  
 
