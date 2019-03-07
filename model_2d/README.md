@@ -1,1 +1,1 @@
-Put pretrained models here
+Put 2D pretrained models here
