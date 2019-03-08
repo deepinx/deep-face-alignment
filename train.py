@@ -33,6 +33,7 @@ def main(args):
   np.random.seed(_seed)
   mx.random.seed(_seed)
   ctx = []
+  os.environ['CUDA_VISIBLE_DEVICES'] = '0'
   cvd = os.environ['CUDA_VISIBLE_DEVICES'].strip()
   if len(cvd)>0:
     for i in xrange(len(cvd.split(','))):

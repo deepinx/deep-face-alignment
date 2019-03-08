@@ -30,7 +30,7 @@ network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
 network.sdu = edict()
-network.sdu.net_coherent = True   # default: False
+network.sdu.net_coherent = False   # default: False
 network.sdu.net_sta = 1
 network.sdu.net_n = 3
 network.sdu.net_dcn = 3

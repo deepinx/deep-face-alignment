@@ -14,10 +14,10 @@ export MXNET_ENGINE_TYPE=ThreadedEnginePerDevice
 
 
 NETWORK='sdu'
-MODELDIR='./model_2d_3'
+MODELDIR='./model_2d_4'
 mkdir -p "$MODELDIR"
 PREFIX="$MODELDIR/$NETWORK"
-PRETRAINED="./model_2d_2/sdu,28"
+PRETRAINED="./model_2d_3/sdu,60"
 LOGFILE="$MODELDIR/log_$NETWORK"
 
 CUDA_VISIBLE_DEVICES='0' python -u train.py --network $NETWORK --prefix "$PREFIX" --pretrained $PRETRAINED > "$LOGFILE" 2>&1 &

@@ -40,6 +40,14 @@ class Handler:
     bbox = bbox[:,0:4]
     points = points[:,:].reshape((-1,2,5))
     points = np.transpose(points, (0,2,1))
+    # for b in bbox:
+    #   cv2.rectangle(img, (int(b[0]), int(b[1])), (int(b[2]), int(b[3])), (0, 255, 0), 2)
+    # for p in points:
+    #   for i in range(5):
+    #     cv2.circle(img, (p[i][0], p[i][1]), 1, (0, 0, 255), 2)
+    # cv2.imshow("detection result", img)
+    # cv2.waitKey(0)
+
     M = np.zeros( (bbox.shape[0], 2, 3), dtype=np.float32)
     ret = np.zeros( (bbox.shape[0], 68, 2), dtype=np.float32)
     for i in range(bbox.shape[0]):
@@ -47,6 +55,10 @@ class Handler:
       rimg = cv2.warpAffine(img, M[i], self.image_size, borderValue = 0.0)
       img2 = cv2.cvtColor(rimg, cv2.COLOR_BGR2RGB)
       img2 = np.transpose(img2, (2,0,1)) #3*112*112, RGB
+      # cv2.imshow("detection result", rimg)
+      # cv2.waitKey(0)
+      filename = 'sample-images/%d.jpg'%(i+1)
+      cv2.imwrite(filename, rimg)
       input_blob = np.zeros( (1, 3, self.image_size[1], self.image_size[0]),dtype=np.uint8 )
       input_blob[0] = img2
       ta = datetime.datetime.now()
@@ -69,7 +81,7 @@ img_path = './sample-images/t1.jpg'
 img = cv2.imread(img_path)
 #img = np.zeros( (128,128,3), dtype=np.uint8 )
 
-handler = Handler('./model_3d/sdu', 0, ctx_id)
+handler = Handler('./model_2d/sdu', 0, ctx_id)
 for _ in range(2):
   ta = datetime.datetime.now() 
   ret, M2 = handler.get(img)
@@ -94,7 +106,7 @@ for i in range(ret.shape[0]):
 cv2.imshow('alignment results', img)
 cv2.waitKey(0)
 
-filename = './landmark_test.png'
+filename = 'sample-images/landmark_test.png'
 print('writing', filename)
 cv2.imwrite(filename, img)
 

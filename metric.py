@@ -81,7 +81,8 @@ class NMEMetric(mx.metric.EvalMetric):
           _nme /= _dist
       else:
           #_dist = np.sqrt(float(label.shape[2]*label.shape[3]))
-          _dist = np.sqrt(np.sum(np.square(record[5] - record[4])))
+          #_dist = np.sqrt(np.sum(np.square(record[5] - record[4])))
+          _dist = np.sqrt((record[5][0]-record[4][0])*(record[5][1]-record[4][1]))
           #print(_dist)
           _nme /= _dist
       nme.append(_nme)
