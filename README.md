@@ -16,16 +16,12 @@ Some popular heatmap based approaches like stacked hourglass are also provided i
 
 2D pre-trained model will be added soon.
 
-NME of 2D pre-trained model on test datasets:
-
 | Network    | IBUG  |  COFW  |
 |  :------:   | :----:  |  :----:  |
 | SDU-Net Official    |  6.73%  |  5.55%  |
 | SDU-Net Ours        |  **–**  |  **–**  |
 
 3D pre-trained model will be added soon.
-
-NME of 3D pre-trained model on test datasets:
 
 | Network    | AFLW2000-3D  |
 |  :------:   | :----:  | 
@@ -58,6 +54,10 @@ This repository has been tested under the following environment:
   -  Download the pre-trained model and place it in *`./model_2d/`* or *`./model_3d/`*.
 
   -  You can use `python test.py` to test this alignment method.
+  
+## Results
+
+![2D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test.png)
 
 ## License
 
