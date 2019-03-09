@@ -51,7 +51,7 @@ class Handler:
     M = np.zeros( (bbox.shape[0], 2, 3), dtype=np.float32)
     ret = np.zeros( (bbox.shape[0], 68, 2), dtype=np.float32)
     for i in range(bbox.shape[0]):
-      M[i] = img_helper.estimate_trans_bbox(bbox[i,:], self.image_size[0], s = 2.0)
+      M[i] = img_helper.estimate_trans_bbox(bbox[i,:], self.image_size[0], s = 1.2)
       rimg = cv2.warpAffine(img, M[i], self.image_size, borderValue = 0.0)
       img2 = cv2.cvtColor(rimg, cv2.COLOR_BGR2RGB)
       img2 = np.transpose(img2, (2,0,1)) #3*112*112, RGB

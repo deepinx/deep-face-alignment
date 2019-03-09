@@ -303,6 +303,9 @@ class FaceSegIter(DataIter):
                 if R is None:
                   continue
                 data_out, label_out, flip_data_out, flip_label_out = R
+                # filename = 'sample-images/%d.jpg'%(i+1)
+                # img2 = cv2.cvtColor(data_out, cv2.COLOR_BGR2RGB)
+                # cv2.imwrite(filename, img2)
                 if not self.use_coherent:
                     data = nd.array(data_out)
                     data = nd.transpose(data, axes=(2, 0, 1))

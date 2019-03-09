@@ -13,8 +13,8 @@ from metric import LossValueMetric, NMEMetric
 parser = argparse.ArgumentParser(description='test nme on rec data')
 # general
 # parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_2d/ibug.rec', help='rec data path')
-# parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_2d/cofw_testset.rec', help='rec data path')
-parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_3d/AFLW2000-3D.rec', help='rec data path')
+parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_2d/cofw_testset.rec', help='rec data path')
+# parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_3d/AFLW2000-3D.rec', help='rec data path')
 parser.add_argument('--prefix', default='./model_2d/sdu', help='model prefix')
 parser.add_argument('--epoch', type=int, default=0, help='model epoch')
 parser.add_argument('--gpu', type=int, default=0, help='')
@@ -44,7 +44,7 @@ model.bind(for_training=False, data_shapes=[('data', (1, 3, image_size[0], image
 model.set_params(arg_params, aux_params)
 
 val_iter = FaceSegIter(path_imgrec = rec_path,
-  batch_size = 1,
+  batch_size = 16,
   aug_level = 0,
   )
 _metric = NMEMetric()
