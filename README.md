@@ -14,9 +14,9 @@ The training/validation dataset and testset are in below table:
 
 The performances of pre-trained models are shown below. Accuracy is reported as the Normalised Mean Error (NME). To facilitate comparison with other methods on these datasets, we give mean error normalised by the diagonal of the ground truth bounding box and the eye centre distance.
 
-| Model | IBUG (68 pts) | COFW (68 pts) | 300W (68 pts) | Download Link |
-|:-:|:-:|:-:| :-: | :-: |
-| *Hourglass2-CAB (# 3)* | **1.891/7.207** | **1.962/6.125** |**1.651/5.792** | [BaiduCloud](https://pan.baidu.com/s/1BysgX7X2p1g8X8nS01gFlA) or [GoogleDrive](https://drive.google.com/open?id=1AbTGhIBzUUINTH2GNL05tSWvOHnclRr4) |
+| Model | Model Size | IBUG (68 pts) | COFW (68 pts) | 300W (68 pts) | Download Link |
+|:-:|:-:|:-:| :-: | :-: | :-: |
+| *Hourglass2-CAB (# 3)* | 37MB | **1.891/7.207** | **1.962/6.125** |**1.651/5.792** | [BaiduCloud](https://pan.baidu.com/s/1BysgX7X2p1g8X8nS01gFlA) or [GoogleDrive](https://drive.google.com/open?id=1AbTGhIBzUUINTH2GNL05tSWvOHnclRr4) |
 
 Note: More pretrained models will be added soon.
 
