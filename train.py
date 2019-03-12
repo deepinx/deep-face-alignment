@@ -104,8 +104,10 @@ def main(args):
   lr_steps = [int(x) for x in args.lr_step.split(',')]
   print('lr-steps', lr_steps)
   global_step = [0]
+  highest_acc = [1.0, 1.0]
 
   def val_test():
+    results = []
     all_layers = sym.get_internals()
     vsym = all_layers['heatmap_output']
     vmodel = mx.mod.Module(symbol=vsym, context=ctx, label_names = None)
@@ -118,8 +120,8 @@ def main(args):
         if not os.path.exists(_file):
             continue
         val_iter = FaceSegIter(path_imgrec = _file,
-          batch_size = args.batch_size,
-          #batch_size = 4,
+          #batch_size = args.batch_size,
+          batch_size = 1,
           aug_level = 0,
           args = args,
           )
@@ -133,12 +135,15 @@ def main(args):
           model.forward(batch_data, is_train=False)
           model.update_metric(val_metric, eval_batch.label)
         nme_value = val_metric.get_name_value()[0][1]
+        results.append(nme_value)
         print('[%d][%s]NME: %f'%(global_step[0], target, nme_value))
+    return results
   
   def _batch_callback(param):
     _cb(param)
     global_step[0]+=1
     mbatch = global_step[0]
+    is_highest = False
     for _lr in lr_steps:
       if mbatch==_lr:
         opt.lr *= 0.2
@@ -147,16 +152,22 @@ def main(args):
     if mbatch%1000==0:
       print('lr-batch-epoch:',opt.lr,param.nbatch,param.epoch)
     if mbatch>0 and mbatch%args.verbose==0:
-      val_test()
-      if args.ckpt==1:
+      acc_list = val_test()
+      score = np.mean(acc_list) 
+      if acc_list[0]<highest_acc[0]:  # ibug
+        is_highest = True
+        highest_acc[0] = acc_list[0]
+      if score<highest_acc[1]:   # mean
+        is_highest = True
+        highest_acc[1] = score
+      if args.ckpt==1 and is_highest==True:
         msave = mbatch//args.verbose
         print('saving', msave)
         arg, aux = model.get_params()
         mx.model.save_checkpoint(args.prefix, msave, model.symbol, arg, aux)
     if mbatch==lr_steps[-1]:
-      if args.ckpt==2:
-        #msave = mbatch//args.verbose
-        msave = 1
+      if args.ckpt==1:
+        msave = mbatch//args.verbose
         print('saving', msave)
         arg, aux = model.get_params()
         mx.model.save_checkpoint(args.prefix, msave, model.symbol, arg, aux)

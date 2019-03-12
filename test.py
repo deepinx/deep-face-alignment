@@ -81,7 +81,7 @@ img_path = './sample-images/t1.jpg'
 img = cv2.imread(img_path)
 #img = np.zeros( (128,128,3), dtype=np.uint8 )
 
-handler = Handler('./model_2d/sdu', 0, ctx_id)
+handler = Handler('./model_hg/hourglass', 0, ctx_id)
 for _ in range(2):
   ta = datetime.datetime.now() 
   ret, M2 = handler.get(img)

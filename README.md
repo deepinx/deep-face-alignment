@@ -2,32 +2,23 @@
 
 The Mxnet implementation of the most recent state-of-the-art 2D and 3D face alignment method ``Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment`` at [BMVC](http://bmvc2018.org/contents/papers/0051.pdf) or link at [Arxiv](https://arxiv.org/abs/1812.01936). This proposed stacked dense U-Nets (SDU-Net) with dual transformers can get the normalised mean error (NME) of 6.73% and 5.55% respectively on IBUG and COFW datasets for 2D face alignment. For 3D face alignment, this method further decreases the NME by 5.8% with former state-of-the-art method (HPM) proposed by Bulat et al on AFLW2000-3D.
 
-3D alignment results on the AFLW2000-3D dataset:
-
-| Method    | ESR   |  RCPR   |  SDM   | 3DDFA  |  HPM  | SDU-Net |
-|  :------: | :----:  |  :----:  |  :----:   |  :----:  |  :----:   |  :----:  |
-|   NME     |   7.99   |   7.80   |   6.12   |   4.94   |   3.26   |   3.07   |
-
 Some popular heatmap based approaches like stacked hourglass are also provided in this repository.  
 
-2D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A) and [googledrive](https://drive.google.com/open?id=1XyZ5yFm-MGNlUiGG0dYRHRTdRiS33zPb).
+The training/validation dataset and testset are in below table:
 
-3D training/validation dataset is now available at [baiducloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) and [googledrive](https://drive.google.com/open?id=1i-gUFJhtiZP3uCmNbhLCzd4C4fb-Ljhk).
+| Data | Download Link | Description |
+|:-:|:-:|:-:|
+| bmvc_sdu_data2d.zip | [BaiduCloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A) or [GoogleDrive](https://drive.google.com/open?id=1XyZ5yFm-MGNlUiGG0dYRHRTdRiS33zPb), 490M | 2D training/validation dataset and IBUG, COFW, 300W testset |
+| bmvc_sdu_data3d.zip | [BaiduCloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) or [GoogleDrive](https://drive.google.com/open?id=1i-gUFJhtiZP3uCmNbhLCzd4C4fb-Ljhk), 1.54G | 3D training/validation dataset and ALFW-2000-3D testset |
 
-2D pre-trained model will be added soon.
 
-| Network    | IBUG  |  COFW  |
-|  :------:   | :----:  |  :----:  |
-| SDU-Net Official    |  6.73%  |  5.55%  |
-| SDU-Net Ours        |  **–**  |  **–**  |
+The performances of pre-trained models are shown below. Accuracy is reported as the Normalised Mean Error (NME). To facilitate comparison with other methods on these datasets, we give mean error normalised by the diagonal of the ground truth bounding box and the eye centre distance.
 
-3D pre-trained model will be added soon.
+| Model | IBUG (68 pts) | COFW (68 pts) | 300W (68 pts) | Download Link |
+|:-:|:-:|:-:| :-: | :-: |
+| *Hourglass2-CAB (# 3)* | **1.891/7.207** | **1.962/6.125** |**1.651/5.792** | [BaiduCloud](https://pan.baidu.com/s/1BysgX7X2p1g8X8nS01gFlA) or [GoogleDrive](https://drive.google.com/open?id=1AbTGhIBzUUINTH2GNL05tSWvOHnclRr4) |
 
-| Network    | AFLW2000-3D  |
-|  :------:   | :----:  | 
-| SDU-Net Official    |  3.07%  |
-| SDU-Net Ours        |  **–**  |
-
+Note: More pretrained models will be added soon.
 
 ## Environment
 

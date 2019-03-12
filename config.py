@@ -25,12 +25,12 @@ network.hourglass.net_sta = 0
 network.hourglass.net_n = 3
 network.hourglass.net_dcn = 0
 network.hourglass.net_stacks = 2
-network.hourglass.net_block = 'resnet'
+network.hourglass.net_block = 'cab'
 network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
 network.sdu = edict()
-network.sdu.net_coherent = False   # default: False
+network.sdu.net_coherent = False
 network.sdu.net_sta = 1
 network.sdu.net_n = 3
 network.sdu.net_dcn = 3
@@ -53,7 +53,7 @@ dataset.i2d.base_scale = 256
 dataset.i2d.input_img_size = 128
 dataset.i2d.output_label_size = 64
 dataset.i2d.label_xfirst = False
-dataset.i2d.val_targets = ['ibug', 'cofw_testset', '300W']
+dataset.i2d.val_targets = ['ibug', 'cofw_testset']  #'300W'
 
 dataset.i3d = edict()
 dataset.i3d.dataset = '3D'
@@ -83,9 +83,9 @@ default.kvstore = 'device'
 
 default.prefix = 'model/sdu'
 default.end_epoch = 10000
-default.lr = 0.00001  #0.00025
+default.lr = 0.00025
 default.wd = 0.0
-default.per_batch_size = 16   #20
+default.per_batch_size = 20
 default.lr_step = '16000,24000,30000'
 
 def generate_config(_network, _dataset):
