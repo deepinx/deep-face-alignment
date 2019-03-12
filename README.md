@@ -9,7 +9,7 @@ The training/validation dataset and testset are in below table:
 | Data | Download Link | Description |
 |:-:|:-:|:-:|
 | bmvc_sdu_data2d.zip | [BaiduCloud](https://pan.baidu.com/s/1idA68ga8ey-R9TGSwWO62A) or [GoogleDrive](https://drive.google.com/open?id=1XyZ5yFm-MGNlUiGG0dYRHRTdRiS33zPb), 490M | 2D training/validation dataset and IBUG, COFW, 300W testset |
-| bmvc_sdu_data3d.zip | [BaiduCloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) or [GoogleDrive](https://drive.google.com/open?id=1i-gUFJhtiZP3uCmNbhLCzd4C4fb-Ljhk), 1.54G | 3D training/validation dataset and ALFW-2000-3D testset |
+| bmvc_sdu_data3d.zip | [BaiduCloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) or [GoogleDrive](https://drive.google.com/open?id=1i-gUFJhtiZP3uCmNbhLCzd4C4fb-Ljhk), 1.54G | 3D training/validation dataset and AFLW2000-3D testset |
 
 
 The performances of pre-trained models are shown below. Accuracy is reported as the Normalised Mean Error (NME). To facilitate comparison with other methods on these datasets, we give mean error normalised by the diagonal of the ground truth bounding box and the eye centre distance.
@@ -38,7 +38,7 @@ This repository has been tested under the following environment:
     
 3.  You can define different loss-type/network structure/dataset in ``config.py``(from ``sample_config.py``).
     
-4.  You can use ``train.py --network sdu`` to train SDU-net or ``train.py --network hourglass`` to train stacked hourglass network.
+4.  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --network sdu`` to train SDU-net or ``CUDA_VISIBLE_DEVICES='0' train.py --network hourglass`` to train stacked hourglass network. Instead, you can also edit  _`train.sh`_  and run  _`sh ./train.sh`_  to train your models.
 
 ## Testing
 
