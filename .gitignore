@@ -99,5 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
-model_*/
+*.params
+*.json
+model/
 .vscode/
