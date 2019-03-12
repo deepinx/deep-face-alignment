@@ -42,7 +42,7 @@ This repository has been tested under the following environment:
 
 ## Testing
 
-  -  Download the pre-trained model and place it in *`./model_2d/`* or *`./model_3d/`*.
+  -  Download the pre-trained model and place it in *`./models/`*.
 
   -  You can use `python test.py` to test this alignment method.
   
