@@ -331,7 +331,7 @@ def hourglass(data, nFilters, nModules, n, workspace, name, binarize, dcn):
   return mx.symbol.add_n(up1, up2)
 
 
-class STA:
+class SAT:
     def __init__(self, data, nFilters, nModules, n, workspace, name):
         self.data = data
         self.nFilters = nFilters
@@ -403,14 +403,14 @@ class STA:
             else:
                 ybody = self.get_conv(y[0], "%s_w%d_h%d_5"%(self.name, w, h))
             #if not HC:
-            if config.net_sta==2 and h==3 and w==2:
+            if config.net_sat==2 and h==3 and w==2:
               z = self.get_output(w+1, h)
               zbody = z[0]
               zbody = mx.sym.Pooling(data=zbody, kernel=(z[1], z[1]), stride=(z[1],z[1]), pad=(0,0), pool_type='avg')
               body = xbody+ybody
               body = body/2
               body = mx.sym.broadcast_mul(body, zbody)
-            else: #sta==1
+            else: #sat==1
               body = xbody+ybody
               body = body/2
             ret = body, x[1]
@@ -476,13 +476,13 @@ def get_symbol(num_classes):
     input_size = config.input_img_size
     label_size = config.output_label_size
     use_coherent = config.net_coherent
-    use_STA = config.net_sta
+    use_SAT = config.net_sat
     N = config.net_n
     DCN = config.net_dcn
     per_batch_size = config.per_batch_size
     print('binarize', binarize)
     print('use_coherent', use_coherent)
-    print('use_STA', use_STA)
+    print('use_SAT', use_SAT)
     print('use_N', N)
     print('use_DCN', DCN)
     print('per_batch_size', per_batch_size)
@@ -519,9 +519,9 @@ def get_symbol(num_classes):
 
     for i in xrange(nStacks):
       shortcut = body
-      if config.net_sta>0:
-        sta = STA(body, nFilters, nModules, config.net_n+1, workspace, 'sta%d'%(i))
-        body = sta.get()
+      if config.net_sat>0:
+        sat = SAT(body, nFilters, nModules, config.net_n+1, workspace, 'sat%d'%(i))
+        body = sat.get()
       else:
         body = hourglass(body, nFilters, nModules, config.net_n, workspace, 'stack%d_hg'%(i), binarize, dcn)
       for j in xrange(nModules):
