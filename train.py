@@ -120,8 +120,8 @@ def main(args):
         if not os.path.exists(_file):
             continue
         val_iter = FaceSegIter(path_imgrec = _file,
-          #batch_size = args.batch_size,
-          batch_size = 1,
+          batch_size = args.batch_size,
+          # batch_size = 1,
           aug_level = 0,
           args = args,
           )

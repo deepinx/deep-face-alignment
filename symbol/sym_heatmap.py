@@ -542,9 +542,9 @@ def get_symbol(num_classes):
           #                          name=_name, workspace=workspace)
       if i==nStacks-1:
           heatmap = out
-      # loss = ce_loss(out, ref_label)
+      loss = ce_loss(out, ref_label)
       #loss = loss/nStacks
-      loss = l2_loss(out, ref_label)
+      # loss = l2_loss(out, ref_label)
       losses.append(loss)
       if config.net_coherent>0:
           ux, dx = coherentor.get(out)
