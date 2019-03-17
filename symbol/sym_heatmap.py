@@ -446,8 +446,8 @@ class SymCoherent:
 
 def l2_loss(x, y):
   loss = x-y
-  loss = mx.symbol.smooth_l1(loss, scalar=1.0)
-  #loss = loss*loss
+  # loss = mx.symbol.smooth_l1(loss, scalar=1.0)
+  loss = loss*loss
   loss = mx.symbol.mean(loss)
   return loss
 
@@ -455,11 +455,12 @@ def ce_loss(x, y):
   #loss = mx.sym.SoftmaxOutput(data = x, label = y, normalization='valid', multi_output=True)
   x_max = mx.sym.max(x, axis=[2,3], keepdims=True)
   x = mx.sym.broadcast_minus(x, x_max)
+  # x = mx.sym.L2Normalization(x, mode='instance')
   body = mx.sym.exp(x)
   sums = mx.sym.sum(body, axis=[2,3], keepdims=True)
   body = mx.sym.broadcast_div(body, sums)
   loss = mx.sym.log(body)
-  loss = loss*y*-1.0
+  loss = loss*y*(-1.0)
   #loss = mx.symbol.mean(loss, axis=[1,2,3])
   loss = mx.symbol.mean(loss)
   return loss
@@ -540,17 +541,6 @@ def get_symbol(num_classes):
                 num_filter=num_classes, pad=(1,1), kernel=(3, 3), num_deformable_group=1, stride=(1, 1), dilate=(1, 1), no_bias=False)
           #out = Conv(data=ll, num_filter=num_classes, kernel=(3,3), stride=(1,1), pad=(1,1),
           #                          name=_name, workspace=workspace)
-      if i==nStacks-1:
-          heatmap = out
-      loss = ce_loss(out, ref_label)
-      #loss = loss/nStacks
-      # loss = l2_loss(out, ref_label)
-      losses.append(loss)
-      if config.net_coherent>0:
-          ux, dx = coherentor.get(out)
-          closs = l2_loss(ux, dx)
-          closs = closs/nStacks
-          closses.append(closs)
 
       if i<nStacks-1:
         ll2 = Conv(data=ll, num_filter=nFilters, kernel=(1, 1), stride=(1,1), pad=(0,0),
@@ -566,6 +556,18 @@ def get_symbol(num_classes):
             out3 = mx.contrib.symbol.DeformableConvolution(name=_name, data=body, offset=out3_offset,
                   num_filter=nFilters, pad=(1,1), kernel=(3, 3), num_deformable_group=1, stride=(1, 1), dilate=(1, 1), no_bias=False)
             body = out3
+      elif i==nStacks-1:
+          heatmap = out
+      
+      loss = ce_loss(out, ref_label)
+      # loss = loss/nStacks
+      # loss = l2_loss(out, ref_label)
+      losses.append(loss)
+      if config.net_coherent>0:
+          ux, dx = coherentor.get(out)
+          closs = l2_loss(ux, dx)
+          closs = closs/nStacks
+          closses.append(closs)
 
     pred = mx.symbol.BlockGrad(heatmap)
     #loss = mx.symbol.add_n(*losses)
