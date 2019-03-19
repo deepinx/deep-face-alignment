@@ -446,8 +446,8 @@ class SymCoherent:
 
 def l2_loss(x, y):
   loss = x-y
-  # loss = mx.symbol.smooth_l1(loss, scalar=1.0)
-  loss = loss*loss
+  loss = mx.symbol.smooth_l1(loss, scalar=1.0)
+  #loss = loss*loss
   loss = mx.symbol.mean(loss)
   return loss
 
@@ -455,7 +455,7 @@ def ce_loss(x, y):
   #loss = mx.sym.SoftmaxOutput(data = x, label = y, normalization='valid', multi_output=True)
   x_max = mx.sym.max(x, axis=[2,3], keepdims=True)
   x = mx.sym.broadcast_minus(x, x_max)
-  # x = mx.sym.L2Normalization(x, mode='instance')
+  #x = mx.sym.L2Normalization(x, mode='instance')
   body = mx.sym.exp(x)
   sums = mx.sym.sum(body, axis=[2,3], keepdims=True)
   body = mx.sym.broadcast_div(body, sums)
@@ -578,7 +578,7 @@ def get_symbol(num_classes):
       loss = mx.symbol.MakeLoss(loss)
       syms.append(loss)
     if len(closses)>0:
-        coherent_weight = 0.001  #0.0001
+        coherent_weight = 0.0001
         closs = mx.symbol.add_n(*closses)
         closs = mx.symbol.MakeLoss(closs, grad_scale = coherent_weight)
         syms.append(closs)

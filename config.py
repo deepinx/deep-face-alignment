@@ -22,8 +22,8 @@ network = edict()
 network.hourglass = edict()
 network.hourglass.net_coherent = False
 network.hourglass.net_sat = 0
-network.hourglass.net_n = 3
-network.hourglass.net_dcn = 3
+network.hourglass.net_n = 4
+network.hourglass.net_dcn = 0
 network.hourglass.net_stacks = 2
 network.hourglass.net_block = 'cab'
 network.hourglass.net_binarize = False
@@ -72,7 +72,7 @@ dataset.i3d.val_targets = ['AFLW2000-3D']
 default = edict()
 
 # default network
-default.network = 'hourglass'
+default.network = 'sdu'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset
