@@ -16,7 +16,7 @@ parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_2d
 # parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_2d/cofw_testset.rec', help='rec data path')
 # parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_2d/300W.rec', help='rec data path')
 # parser.add_argument('--rec', default='/media/3T_disk/my_datasets/sdu_net/data_3d/AFLW2000-3D.rec', help='rec data path')
-parser.add_argument('--prefix', default='./models/model-hg2d4-cab/model', help='model prefix')
+parser.add_argument('--prefix', default='./models/model-hg2d3-cab/model', help='model prefix')
 parser.add_argument('--epoch', type=int, default=0, help='model epoch')
 parser.add_argument('--gpu', type=int, default=0, help='')
 parser.add_argument('--landmark-type', default='2d', help='')

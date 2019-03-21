@@ -47,6 +47,7 @@ class FaceSegIter(DataIter):
       self.cur = 0
       self.reset()
       self.data_shape = (3, config.input_img_size, config.input_img_size)
+      self.data_size = len(self.oseq)
       self.num_classes = config.num_classes
       self.input_img_size = config.input_img_size
       #self.label_classes = self.num_classes
@@ -111,7 +112,7 @@ class FaceSegIter(DataIter):
       #    ]
 
     def get_data_shape(self):
-        return self.data_shape
+        return self.data_shape, self.data_size
 
     #def get_label_shape(self):
     #    return self.label_shape

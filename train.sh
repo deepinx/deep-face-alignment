@@ -13,25 +13,25 @@ export MXNET_ENGINE_TYPE=ThreadedEnginePerDevice
 # CUDA_VISIBLE_DEVICES='0' python -u train.py --network $NETWORK --prefix "$PREFIX" --pretrained $PRETRAINED --per-batch-size 16 --lr 2e-5 --lr-step '16000,24000,30000' > "$LOGFILE" 2>&1 &
 
 
-# NETWORK='sdu'
-# MODELDIR='./model/model-sat2d3-cab/1'
-# mkdir -p "$MODELDIR"
-# PREFIX="$MODELDIR/model"
-# PRETRAINED="./model/model-sat2d3-cab/1/model,150"
-# LOGFILE="$MODELDIR/log"
-
-# CUDA_VISIBLE_DEVICES='0' python -u train.py --network $NETWORK --prefix "$PREFIX" --per-batch-size 16 --lr 1e-4 --lr-step '16000,24000,30000' > "$LOGFILE" 2>&1 &
-
-
-
-NETWORK='hourglass'
-MODELDIR='./model/model-hg2d4-cab/3'
+NETWORK='sdu'
+MODELDIR='./model/model-sat2d3-cab/2'
 mkdir -p "$MODELDIR"
 PREFIX="$MODELDIR/model"
-PRETRAINED="./model/model-hg2d4-cab/3/model,0"
+PRETRAINED="./model/model-sat2d3-cab/1/model,150"
 LOGFILE="$MODELDIR/log"
 
-CUDA_VISIBLE_DEVICES='0' python -u train.py --network $NETWORK --prefix "$PREFIX" --pretrained $PRETRAINED --per-batch-size 24 --lr 1e-6 --lr-step '16000,24000,30000' > "$LOGFILE" 2>&1 &
+CUDA_VISIBLE_DEVICES='0' python -u train.py --network $NETWORK --prefix "$PREFIX" --pretrained $PRETRAINED --per-batch-size 16 --lr 1e-4 --lr-epoch-step '1,2,3' > "$LOGFILE" 2>&1 &
+
+
+
+# NETWORK='hourglass'
+# MODELDIR='./model/model-hg2d3-cab-l2/3'
+# mkdir -p "$MODELDIR"
+# PREFIX="$MODELDIR/model"
+# PRETRAINED="./model/model-hg2d3-cab-l2/2/model,79"
+# LOGFILE="$MODELDIR/log"
+
+# CUDA_VISIBLE_DEVICES='0' python -u train.py --network $NETWORK --prefix "$PREFIX" --pretrained $PRETRAINED --per-batch-size 24 --lr 1e-6 --lr-step '16000,24000,30000' > "$LOGFILE" 2>&1 &
 
 
 # NETWORK='hourglass'

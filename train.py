@@ -60,7 +60,7 @@ def main(args):
       args = args,
       )
 
-  data_shape = train_iter.get_data_shape()
+  data_shape, data_size = train_iter.get_data_shape()
   #label_shape = train_iter.get_label_shape()
   sym = sym_heatmap.get_symbol(num_classes=config.num_classes)
   if len(args.pretrained)==0:
@@ -101,18 +101,17 @@ def main(args):
   #_metric2 = AccMetric()
   #eval_metrics = [_metric, _metric2]
   eval_metrics = [_metric]
-  lr_steps = [int(x) for x in args.lr_step.split(',')]
-  print('lr-steps', lr_steps)
-  global_step = [0]
-  highest_acc = [1.0, 1.0]
+  lr_epoch_steps = [int(x) for x in args.lr_epoch_step.split(',')]
+  print('lr-epoch-steps', lr_epoch_steps)
 
   def val_test():
     results = []
+    test_batch_size = 1
     all_layers = sym.get_internals()
     vsym = all_layers['heatmap_output']
     vmodel = mx.mod.Module(symbol=vsym, context=ctx, label_names = None)
     #model.bind(data_shapes=[('data', (args.batch_size, 3, image_size[0], image_size[1]))], label_shapes=[('softmax_label', (args.batch_size,))])
-    vmodel.bind(data_shapes=[('data', (args.batch_size,)+data_shape)])
+    vmodel.bind(data_shapes=[('data', (test_batch_size,)+data_shape)])
     arg_params, aux_params = model.get_params()
     vmodel.set_params(arg_params, aux_params)
     for target in config.val_targets:
@@ -120,8 +119,8 @@ def main(args):
         if not os.path.exists(_file):
             continue
         val_iter = FaceSegIter(path_imgrec = _file,
-          batch_size = args.batch_size,
-          # batch_size = 1,
+          # batch_size = args.batch_size,
+          batch_size = test_batch_size,
           aug_level = 0,
           args = args,
           )
@@ -129,28 +128,38 @@ def main(args):
         val_metric = mx.metric.create(_metric)
         val_metric.reset()
         val_iter.reset()
+        nme = []
         for i, eval_batch in enumerate(val_iter):
           #print(eval_batch.data[0].shape, eval_batch.label[0].shape)
           batch_data = mx.io.DataBatch(eval_batch.data)
-          model.forward(batch_data, is_train=False)
-          model.update_metric(val_metric, eval_batch.label)
-        nme_value = val_metric.get_name_value()[0][1]
+          vmodel.forward(batch_data, is_train=False)
+          # vmodel.update_metric(val_metric, eval_batch.label)
+          pred_label = vmodel.get_outputs()[-1].asnumpy()
+          label = eval_batch.label[0].asnumpy()
+          _nme = _metric.cal_nme(label, pred_label)
+          nme.append(_nme)
+        # nme_value = val_metric.get_name_value()[0][1]
+        nme_value = np.mean(nme)
         results.append(nme_value)
         print('[%d][%s]NME: %f'%(global_step[0], target, nme_value))
     return results
   
+  global_step = [0]
+  highest_acc = [1.0, 1.0]
   def _batch_callback(param):
     _cb(param)
     global_step[0]+=1
     mbatch = global_step[0]
+    mepoch = mbatch*args.batch_size//data_size
+    pre = mbatch*args.batch_size%data_size
     is_highest = False
-    for _lr in lr_steps:
-      if mbatch==_lr:
+    for _lr in lr_epoch_steps[0:-1]:
+      if mepoch==_lr and pre<args.batch_size:
         opt.lr *= 0.2
         print('lr change to', opt.lr)
         break
     if mbatch%1000==0:
-      print('lr-batch-epoch:',opt.lr,param.nbatch,param.epoch)
+      print('lr:',opt.lr,'batch:',param.nbatch,'epoch:',param.epoch)
     if mbatch>0 and mbatch%args.verbose==0:
       acc_list = val_test()
       score = np.mean(acc_list) 
@@ -165,7 +174,7 @@ def main(args):
         print('saving', msave)
         arg, aux = model.get_params()
         mx.model.save_checkpoint(args.prefix, msave, model.symbol, arg, aux)
-    if mbatch==lr_steps[-1]:
+    if mepoch==lr_epoch_steps[-1]:
       if args.ckpt==1:
         msave = mbatch//args.verbose
         print('saving', msave)
@@ -204,7 +213,7 @@ if __name__ == '__main__':
   parser.add_argument('--lr', type=float, default=default.lr, help='')
   parser.add_argument('--wd', type=float, default=default.wd, help='')
   parser.add_argument('--per-batch-size', type=int, default=default.per_batch_size, help='')
-  parser.add_argument('--lr-step', help='learning rate steps (in epoch)', default=default.lr_step, type=str)
+  parser.add_argument('--lr-epoch-step', help='learning rate steps (in epoch)', default=default.lr_step, type=str)
   parser.add_argument('--ckpt', type=int, default=1, help='')
   parser.add_argument('--norm', type=int, default=0, help='')
   parser.add_argument('--exf', type=int, default=1, help='')

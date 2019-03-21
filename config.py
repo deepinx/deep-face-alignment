@@ -14,7 +14,7 @@ config.losstype = 'heatmap'
 config.net_coherent = False
 config.multiplier = 1.0
 
-config.gaussian = 0
+config.gaussian = 1
 
 # network settings
 network = edict()
@@ -22,7 +22,7 @@ network = edict()
 network.hourglass = edict()
 network.hourglass.net_coherent = False
 network.hourglass.net_sat = 0
-network.hourglass.net_n = 4
+network.hourglass.net_n = 3
 network.hourglass.net_dcn = 0
 network.hourglass.net_stacks = 2
 network.hourglass.net_block = 'cab'
@@ -72,7 +72,7 @@ dataset.i3d.val_targets = ['AFLW2000-3D']
 default = edict()
 
 # default network
-default.network = 'sdu'
+default.network = 'hourglass'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset

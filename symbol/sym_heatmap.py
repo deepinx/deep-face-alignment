@@ -446,8 +446,8 @@ class SymCoherent:
 
 def l2_loss(x, y):
   loss = x-y
-  loss = mx.symbol.smooth_l1(loss, scalar=1.0)
-  #loss = loss*loss
+  # loss = mx.symbol.smooth_l1(loss, scalar=1.0)
+  loss = loss*loss
   loss = mx.symbol.mean(loss)
   return loss
 
@@ -559,9 +559,9 @@ def get_symbol(num_classes):
       elif i==nStacks-1:
           heatmap = out
       
-      loss = ce_loss(out, ref_label)
+      # loss = ce_loss(out, ref_label)
       # loss = loss/nStacks
-      # loss = l2_loss(out, ref_label)
+      loss = l2_loss(out, ref_label)
       losses.append(loss)
       if config.net_coherent>0:
           ux, dx = coherentor.get(out)
