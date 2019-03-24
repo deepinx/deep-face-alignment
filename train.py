@@ -176,6 +176,7 @@ def main(args):
         mx.model.save_checkpoint(args.prefix, msave, model.symbol, arg, aux)
     if mepoch==lr_epoch_steps[-1]:
       if args.ckpt==1:
+        acc_list = val_test()
         msave = mbatch//args.verbose
         print('saving', msave)
         arg, aux = model.get_params()

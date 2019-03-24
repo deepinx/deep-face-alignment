@@ -25,7 +25,7 @@ network.hourglass.net_sat = 0
 network.hourglass.net_n = 3
 network.hourglass.net_dcn = 0
 network.hourglass.net_stacks = 2
-network.hourglass.net_block = 'cab'
+network.hourglass.net_block = 'hpm'
 network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
