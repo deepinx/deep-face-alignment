@@ -16,7 +16,7 @@ The performances of pre-trained models are shown below. Accuracy is reported as 
 
 | Model | Model Size | IBUG  | COFW  | 300W  | Download Link |
 |:-:|:-:|:-:| :-: | :-: | :-: |
-| *Hourglass2(d=4)-Resnet* | 26MB | 2.0510/7.819 | 2.276/7.094 | 1.891/6.640 | [BaiduCloud](https://pan.baidu.com/s/1xGXiykKrRyGKPXMXDRsMZw) or [GoogleDrive](https://drive.google.com/open?id=1YPfF3t4J33Zj5goIZBk15TsxbqHB90rR) |
+| *Hourglass2(d=4)-Resnet* | 26MB | 2.051/7.819 | 2.276/7.094 | 1.891/6.640 | [BaiduCloud](https://pan.baidu.com/s/1xGXiykKrRyGKPXMXDRsMZw) or [GoogleDrive](https://drive.google.com/open?id=1YPfF3t4J33Zj5goIZBk15TsxbqHB90rR) |
 | *Hourglass2(d=3)-HPM* | 38MB | 1.970/7.499 | 2.116/6.587 | 1.785/6.256 | [BaiduCloud](https://pan.baidu.com/s/1qOD-qthPqScsX913EMwKag) or [GoogleDrive](https://drive.google.com/open?id=1-rDuuzxw9civqz9wTtklYqT6k3utr6Gc) |
 | *Hourglass2(d=4)-CAB* | 46MB |  1.912/7.289  |  1.992/6.216 |  1.658/5.816 | [BaiduCloud](https://pan.baidu.com/s/1sSfnxf9_myl7NS7QEddOfQ) or [GoogleDrive](https://drive.google.com/open?id=1o--WwpHoRw2W5bScan6t16vEKS53WBBm) |
 | *Hourglass2(d=3)-CAB* | 37MB | **1.874/7.140** | **1.926/6.006** |**1.640/5.748** | [BaiduCloud](https://pan.baidu.com/s/1BysgX7X2p1g8X8nS01gFlA) or [GoogleDrive](https://drive.google.com/open?id=1AbTGhIBzUUINTH2GNL05tSWvOHnclRr4) |
