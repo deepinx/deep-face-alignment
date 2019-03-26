@@ -1,8 +1,8 @@
 ## Stacked Dense U-Nets for Face Alignment
 
-The Mxnet implementation of the most recent state-of-the-art 2D and 3D face alignment method ``Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment`` at [BMVC](http://bmvc2018.org/contents/papers/0051.pdf) or link at [Arxiv](https://arxiv.org/abs/1812.01936). This proposed stacked dense U-Nets (SDU-Net) with dual transformers can get the normalised mean error (NME) of 6.73% and 5.55% respectively on IBUG and COFW datasets for 2D face alignment. For 3D face alignment, this method further decreases the NME by 5.8% with former state-of-the-art method (HPM) proposed by Bulat et al on AFLW2000-3D.
+This repository contains heatmap based approaches like stacked hourglass and stacked U-Nets for robust 2D and 3D face alignment. Some popular blocks like bottleneck residual block, inception residual block, parallel and multi-scale (HPM) residual block and channel aggregation block (CAB) are also provided for building the structure of deep face alignment networks. All the codes in this repo are implemented in Python and MXNet.
 
-Some popular heatmap based approaches like stacked hourglass are also provided in this repository.  
+The models for 2D face alignment are verified on IBUG, COFW and 300W test datasets by the normalised mean error (NME) respectively. For 3D face alignment, the 3D face alignment models are compared on AFLW2000-3D with the most recent state-of-the-art methods.
 
 The training/validation dataset and testset are in below table:
 
@@ -12,7 +12,7 @@ The training/validation dataset and testset are in below table:
 | bmvc_sdu_data3d.zip | [BaiduCloud](https://pan.baidu.com/s/1EbSx_j_GoNJqLwZyuclBAQ) or [GoogleDrive](https://drive.google.com/open?id=1i-gUFJhtiZP3uCmNbhLCzd4C4fb-Ljhk), 1.54G | 3D training/validation dataset and AFLW2000-3D testset |
 
 
-The performances of pre-trained models are shown below. Accuracy is reported as the Normalised Mean Error (NME). To facilitate comparison with other methods on these datasets, we give mean error normalised by the diagonal of the ground truth bounding box and the eye centre distance. Each training model is denoted by Topology^StackBlock (d = DownSampling Steps) - BlockType - OtherParameters.
+The performances of 2D face alignment models are shown below. Accuracy is reported as the Normalised Mean Error (NME). To facilitate comparison with other methods on these datasets, we give mean error normalised by the diagonal of the ground truth bounding box and the eye centre distance. Each training model is denoted by Topology^StackBlock (d = DownSampling Steps) - BlockType - OtherParameters.
 
 | Model | Model Size | IBUG  | COFW  | 300W  | Download Link |
 |:-:|:-:|:-:| :-: | :-: | :-: |
@@ -21,6 +21,14 @@ The performances of pre-trained models are shown below. Accuracy is reported as 
 | *Hourglass2(d=4)-CAB* | 46MB |  1.912/7.289  |  1.992/6.216 |  1.658/5.816 | [BaiduCloud](https://pan.baidu.com/s/1sSfnxf9_myl7NS7QEddOfQ) or [GoogleDrive](https://drive.google.com/open?id=1o--WwpHoRw2W5bScan6t16vEKS53WBBm) |
 | *Hourglass2(d=3)-CAB* | 37MB | **1.874/7.140** | **1.926/6.006** |**1.640/5.748** | [BaiduCloud](https://pan.baidu.com/s/1BysgX7X2p1g8X8nS01gFlA) or [GoogleDrive](https://drive.google.com/open?id=1AbTGhIBzUUINTH2GNL05tSWvOHnclRr4) |
 | *SAT2(d=3)-CAB* | 40MB | 1.875/7.154 | 1.939/6.047 | 1.640/5.751 | [BaiduCloud](https://pan.baidu.com/s/1YQKaUwpBq1IWz8vawj6HWA) or [GoogleDrive](https://drive.google.com/open?id=1n-Nd4rdik-IWqIzgIEdssDKvZ7SwuOff) |
+
+
+The performances of 3D face alignment models are shown below. Accuracy is reported as the Normalised Mean Error (NME). The mean error is normalised by the square root of the ground truth bounding box size.
+
+| Model | Model Size | AFLW2000-3D  | Download Link |
+| :-: | :-: | :-: | :-: |
+| *SAT2(d=3)-CAB-3D* | 40MB |  3.360  | [BaiduCloud]() or [GoogleDrive]() |
+
 
 Note: More pretrained models will be added soon.
 
