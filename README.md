@@ -27,7 +27,7 @@ The performances of 3D face alignment models are shown below. Accuracy is report
 
 | Model | Model Size | AFLW2000-3D  | Download Link |
 | :-: | :-: | :-: | :-: |
-| *SAT2(d=3)-CAB-3D* | 40MB |  3.360  | [BaiduCloud]() or [GoogleDrive]() |
+| *SAT2(d=3)-CAB-3D* | 40MB |  3.360  | [BaiduCloud](https://pan.baidu.com/s/1kFO-kTk-ozZ2m494xoNbqw) or [GoogleDrive](https://drive.google.com/open?id=1lxHbWZa_l457oFX4tgSpFaubDKU7LNuq) |
 
 
 Note: More pretrained models will be added soon.
