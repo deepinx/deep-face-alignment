@@ -1,4 +1,4 @@
-## Stacked Dense U-Nets for Face Alignment
+## Robust 2D and 3D Face Alignment Implemented in MXNet
 
 This repository contains heatmap based approaches like stacked hourglass and stacked U-Nets for robust 2D and 3D face alignment. Some popular blocks like bottleneck residual block, inception residual block, parallel and multi-scale (HPM) residual block and channel aggregation block (CAB) are also provided for building the structure of deep face alignment networks. All the codes in this repo are implemented in Python and MXNet.
 
