@@ -1,6 +1,6 @@
 ## Robust 2D and 3D Face Alignment Implemented in MXNet
 
-This repository contains heatmap based approaches like stacked Hourglass and stacked U-Nets for robust 2D and 3D face alignment. Some popular blocks like bottleneck residual block, inception residual block, parallel and multi-scale (HPM) residual block and channel aggregation block (CAB) are also provided for building the structure of deep face alignment networks. All the codes in this repo are implemented in Python and MXNet.
+This repository contains heatmap based approaches like stacked Hourglass and stacked Scale Aggregation Topology (SAT) modules for robust 2D and 3D face alignment. Some popular blocks like bottleneck residual block, inception residual block, parallel and multi-scale (HPM) residual block and channel aggregation block (CAB) are also provided for building the modules of deep face alignment networks. All the codes in this repo are implemented in Python and MXNet.
 
 The models for 2D face alignment are verified on IBUG, COFW and 300W test datasets by the normalised mean error (NME) respectively. For 3D face alignment, the 3D models are compared on AFLW2000-3D with the most recent state-of-the-art methods.
 
