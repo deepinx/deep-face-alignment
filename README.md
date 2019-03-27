@@ -1,6 +1,6 @@
 ## Robust 2D and 3D Face Alignment Implemented in MXNet
 
-This repository contains heatmap based approaches like stacked Hourglass and stacked Scale Aggregation Topology (SAT) modules for robust 2D and 3D face alignment. Some popular blocks like bottleneck residual block, inception residual block, parallel and multi-scale (HPM) residual block and channel aggregation block (CAB) are also provided for building the modules of deep face alignment networks. All the codes in this repo are implemented in Python and MXNet.
+This repository contains different heatmap based topologies like stacked Hourglass and stacked Scale Aggregation Topology (SAT) for robust 2D and 3D face alignment. Some popular blocks such as bottleneck residual block, inception residual block, parallel and multi-scale (HPM) residual block and channel aggregation block (CAB) are also provided for building the topology of the deep face alignment network. All the codes in this repo are implemented in Python and MXNet.
 
 The models for 2D face alignment are verified on IBUG, COFW and 300W test datasets by the normalised mean error (NME) respectively. For 3D face alignment, the 3D models are compared on AFLW2000-3D with the most recent state-of-the-art methods.
 
@@ -48,9 +48,9 @@ This repository has been tested under the following environment:
 
 3.  Download the training/validation dataset and unzip it to your project directory.
     
-3.  You can define different loss-type/network structure/dataset in ``config.py``(from ``sample_config.py``).
+3.  You can define different loss-type/network topology/dataset in ``config.py``(from ``sample_config.py``).
     
-4.  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --network sdu`` to train SDU-net or ``CUDA_VISIBLE_DEVICES='0' train.py --network hourglass`` to train stacked hourglass network. Instead, you can also edit  _`train.sh`_  and run  _`sh ./train.sh`_  to train your models.
+4.  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --topology sat`` to train SAT based models or ``CUDA_VISIBLE_DEVICES='0' train.py --topology hourglass`` to train stacked hourglass networks. Instead, you can also edit  _`train.sh`_  and run  _`sh train.sh`_  to train your models.
 
 ## Testing
 
@@ -60,7 +60,13 @@ This repository has been tested under the following environment:
   
 ## Results
 
-![2D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test.png)
+Results of 2D face alignment (inferenced from model *Hourglass2(d=3)-CAB*) are shown below.
+
+![2D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_2d.png)
+
+Several results on ALFW-2000 dataset (inferenced from model *SAT2(d=3)-CAB-3D*) are shown below.
+
+![3D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_3d.png)
 
 ## License
 
