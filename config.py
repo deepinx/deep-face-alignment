@@ -16,28 +16,28 @@ config.multiplier = 1.0
 
 config.gaussian = 1
 
-# topology settings
-topology = edict()
+# network settings
+network = edict()
 
-topology.hourglass = edict()
-topology.hourglass.net_coherent = False
-topology.hourglass.net_sat = 0
-topology.hourglass.net_n = 3
-topology.hourglass.net_dcn = 0
-topology.hourglass.net_stacks = 2
-topology.hourglass.net_block = 'cab'
-topology.hourglass.net_binarize = False
-topology.hourglass.losstype = 'heatmap'
+network.hourglass = edict()
+network.hourglass.net_coherent = False
+network.hourglass.net_sat = 0
+network.hourglass.net_n = 3
+network.hourglass.net_dcn = 0
+network.hourglass.net_stacks = 2
+network.hourglass.net_block = 'cab'
+network.hourglass.net_binarize = False
+network.hourglass.losstype = 'heatmap'
 
-topology.sat = edict()
-topology.sat.net_coherent = False
-topology.sat.net_sat = 1
-topology.sat.net_n = 3
-topology.sat.net_dcn = 0  #3
-topology.sat.net_stacks = 2
-topology.sat.net_block = 'cab'
-topology.sat.net_binarize = False
-topology.sat.losstype = 'heatmap'
+network.sat = edict()
+network.sat.net_coherent = False
+network.sat.net_sat = 1
+network.sat.net_n = 3
+network.sat.net_dcn = 0  #3
+network.sat.net_stacks = 2
+network.sat.net_block = 'cab'
+network.sat.net_binarize = False
+network.sat.losstype = 'heatmap'
 
 
 # dataset settings
@@ -71,8 +71,8 @@ dataset.i3d.val_targets = ['AFLW2000-3D']
 # default settings
 default = edict()
 
-# default topology
-default.topology = 'sat'
+# default network
+default.network = 'sat'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset
@@ -88,13 +88,13 @@ default.wd = 0.0
 default.per_batch_size = 16
 default.lr_epoch_step = '20,35,45'
 
-def generate_config(_topology, _dataset):
-    for k, v in topology[_topology].items():
+def generate_config(_network, _dataset):
+    for k, v in network[_network].items():
       config[k] = v
       default[k] = v
     for k, v in dataset[_dataset].items():
       config[k] = v
       default[k] = v
-    config.topology = _topology
+    config.network = _network
     config.dataset = _dataset
 

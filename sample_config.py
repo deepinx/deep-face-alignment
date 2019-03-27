@@ -29,15 +29,15 @@ network.hourglass.net_block = 'resnet'
 network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
-network.sdu = edict()
-network.sdu.net_coherent = False
-network.sdu.net_sta = 1
-network.sdu.net_n = 3
-network.sdu.net_dcn = 3
-network.sdu.net_stacks = 2
-network.sdu.net_block = 'cab'
-network.sdu.net_binarize = False
-network.sdu.losstype = 'heatmap'
+network.sat = edict()
+network.sat.net_coherent = False
+network.sat.net_sta = 1
+network.sat.net_n = 3
+network.sat.net_dcn = 3
+network.sat.net_stacks = 2
+network.sat.net_block = 'cab'
+network.sat.net_binarize = False
+network.sat.losstype = 'heatmap'
 
 
 # dataset settings
@@ -86,7 +86,7 @@ default.end_epoch = 10000
 default.lr = 0.00025
 default.wd = 0.0
 default.per_batch_size = 20
-default.lr_step = '16000,24000,30000'
+default.lr_epoch_step = '20,35,45'
 
 def generate_config(_network, _dataset):
     for k, v in network[_network].items():

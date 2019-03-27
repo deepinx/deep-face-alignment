@@ -57,7 +57,7 @@ def init_weights(sym, data_shape_dict):
       init._init_bilinear(k, arg_params[k])
   return arg_params, aux_params
 
-def val_test():
+def val_test(sym, model, ctx, data_shape, global_step):
   results = []
   test_batch_size = 1
   all_layers = sym.get_internals()
@@ -190,7 +190,7 @@ def main(args):
     if mbatch%1000==0:
       print('lr:',opt.lr,'batch:',param.nbatch,'epoch:',param.epoch)
     if mbatch>0 and mbatch%args.verbose==0:
-      acc_list = val_test()
+      acc_list = val_test(sym, model, ctx, data_shape, global_step)
       score = np.mean(acc_list) 
       if acc_list[0]<highest_acc[0]:  # ibug
         is_highest = True
@@ -205,7 +205,7 @@ def main(args):
         mx.model.save_checkpoint(args.prefix, msave, model.symbol, arg, aux)
     if mepoch==lr_epoch_steps[-1]:
       if args.ckpt==1:
-        acc_list = val_test()
+        acc_list = val_test(sym, model, ctx, data_shape, global_step)
         msave = mbatch//args.verbose
         print('saving', msave)
         arg, aux = model.get_params()
@@ -233,10 +233,10 @@ def main(args):
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Train face alignment')
   # general
-  parser.add_argument('--topology', help='topology name', default=default.topology, type=str)
+  parser.add_argument('--network', help='network name', default=default.network, type=str)
   parser.add_argument('--dataset', help='dataset name', default=default.dataset, type=str)
   args, rest = parser.parse_known_args()
-  generate_config(args.topology, args.dataset)
+  generate_config(args.network, args.dataset)
   parser.add_argument('--prefix', default=default.prefix, help='directory to save model.')
   parser.add_argument('--pretrained', default=default.pretrained, help='')
   parser.add_argument('--optimizer', default='nadam', help='')
