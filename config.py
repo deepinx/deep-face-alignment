@@ -16,28 +16,28 @@ config.multiplier = 1.0
 
 config.gaussian = 1
 
-# network settings
-network = edict()
+# topology settings
+topology = edict()
 
-network.hourglass = edict()
-network.hourglass.net_coherent = False
-network.hourglass.net_sat = 0
-network.hourglass.net_n = 3
-network.hourglass.net_dcn = 0
-network.hourglass.net_stacks = 2
-network.hourglass.net_block = 'hpm'
-network.hourglass.net_binarize = False
-network.hourglass.losstype = 'heatmap'
+topology.hourglass = edict()
+topology.hourglass.net_coherent = False
+topology.hourglass.net_sat = 0
+topology.hourglass.net_n = 3
+topology.hourglass.net_dcn = 0
+topology.hourglass.net_stacks = 2
+topology.hourglass.net_block = 'cab'
+topology.hourglass.net_binarize = False
+topology.hourglass.losstype = 'heatmap'
 
-network.sdu = edict()
-network.sdu.net_coherent = False
-network.sdu.net_sat = 1
-network.sdu.net_n = 3
-network.sdu.net_dcn = 0  #3
-network.sdu.net_stacks = 2
-network.sdu.net_block = 'cab'
-network.sdu.net_binarize = False
-network.sdu.losstype = 'heatmap'
+topology.sat = edict()
+topology.sat.net_coherent = False
+topology.sat.net_sat = 1
+topology.sat.net_n = 3
+topology.sat.net_dcn = 0  #3
+topology.sat.net_stacks = 2
+topology.sat.net_block = 'cab'
+topology.sat.net_binarize = False
+topology.sat.losstype = 'heatmap'
 
 
 # dataset settings
@@ -71,30 +71,30 @@ dataset.i3d.val_targets = ['AFLW2000-3D']
 # default settings
 default = edict()
 
-# default network
-default.network = 'hourglass'
+# default topology
+default.topology = 'sat'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset
-default.dataset = 'i2d'
+default.dataset = 'i3d'
 default.frequent = 20
 default.verbose = 200
 default.kvstore = 'device'
 
-default.prefix = 'model/sdu'
+default.prefix = 'model/sat'
 default.end_epoch = 10000
 default.lr = 0.00025
 default.wd = 0.0
-default.per_batch_size = 20
-default.lr_step = '16000,24000,30000'
+default.per_batch_size = 16
+default.lr_epoch_step = '20,35,45'
 
-def generate_config(_network, _dataset):
-    for k, v in network[_network].items():
+def generate_config(_topology, _dataset):
+    for k, v in topology[_topology].items():
       config[k] = v
       default[k] = v
     for k, v in dataset[_dataset].items():
       config[k] = v
       default[k] = v
-    config.network = _network
+    config.topology = _topology
     config.dataset = _dataset
 

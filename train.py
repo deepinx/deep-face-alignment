@@ -16,8 +16,8 @@ import cv2
 from config import config, default, generate_config
 from optimizer import ONadam
 from metric import LossValueMetric, NMEMetric
-sys.path.append(os.path.join(os.path.dirname(__file__), 'symbol'))
-import sym_heatmap
+sys.path.append(os.path.join(os.path.dirname(__file__), 'symbols'))
+import heatmap
 #import sym_fc
 #from symbol import fc
 
@@ -25,6 +25,77 @@ import sym_heatmap
 args = None
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+def init_weights(sym, data_shape_dict):
+  #print('in hg')
+  arg_name = sym.list_arguments()
+  aux_name = sym.list_auxiliary_states()
+  arg_shape, _, aux_shape = sym.infer_shape(**data_shape_dict)
+  arg_shape_dict = dict(zip(arg_name, arg_shape))
+  aux_shape_dict = dict(zip(aux_name, aux_shape))
+  #print(aux_shape)
+  #print(aux_params)
+  #print(arg_shape_dict)
+  arg_params = {}
+  aux_params = {}
+  for k,v in arg_shape_dict.iteritems():
+    #print(k,v)
+    if k.endswith('offset_weight') or k.endswith('offset_bias'):
+      print('initializing',k)
+      arg_params[k] = mx.nd.zeros(shape = v)
+    elif k.startswith('fc6_'):
+      if k.endswith('_weight'):
+        print('initializing',k)
+        arg_params[k] = mx.random.normal(0, 0.01, shape=v)
+      elif k.endswith('_bias'):
+        print('initializing',k)
+        arg_params[k] = mx.nd.zeros(shape=v)
+    elif k.find('upsampling')>=0:
+      print('initializing upsampling_weight', k)
+      arg_params[k] = mx.nd.zeros(shape=arg_shape_dict[k])
+      init = mx.init.Initializer()
+      init._init_bilinear(k, arg_params[k])
+  return arg_params, aux_params
+
+def val_test():
+  results = []
+  test_batch_size = 1
+  all_layers = sym.get_internals()
+  vsym = all_layers['heatmap_output']
+  vmodel = mx.mod.Module(symbol=vsym, context=ctx, label_names = None)
+  #model.bind(data_shapes=[('data', (args.batch_size, 3, image_size[0], image_size[1]))], label_shapes=[('softmax_label', (args.batch_size,))])
+  vmodel.bind(data_shapes=[('data', (test_batch_size,)+data_shape)])
+  arg_params, aux_params = model.get_params()
+  vmodel.set_params(arg_params, aux_params)
+  for target in config.val_targets:
+      _file = os.path.join(config.dataset_path, '%s.rec'%target)
+      if not os.path.exists(_file):
+          continue
+      val_iter = FaceSegIter(path_imgrec = _file,
+        # batch_size = args.batch_size,
+        batch_size = test_batch_size,
+        aug_level = 0,
+        args = args,
+        )
+      _metric = NMEMetric()
+      val_metric = mx.metric.create(_metric)
+      val_metric.reset()
+      val_iter.reset()
+      nme = []
+      for i, eval_batch in enumerate(val_iter):
+        #print(eval_batch.data[0].shape, eval_batch.label[0].shape)
+        batch_data = mx.io.DataBatch(eval_batch.data)
+        vmodel.forward(batch_data, is_train=False)
+        # vmodel.update_metric(val_metric, eval_batch.label)
+        pred_label = vmodel.get_outputs()[-1].asnumpy()
+        label = eval_batch.label[0].asnumpy()
+        _nme = _metric.cal_nme(label, pred_label)
+        nme.append(_nme)
+      # nme_value = val_metric.get_name_value()[0][1]
+      nme_value = np.mean(nme)
+      results.append(nme_value)
+      print('[%d][%s]NME: %f'%(global_step[0], target, nme_value))
+  return results
 
 
 def main(args):
@@ -49,8 +120,6 @@ def main(args):
   args.batch_size = args.per_batch_size*args.ctx_num
   config.per_batch_size = args.per_batch_size
 
-
-
   print('Call with', args, config)
   train_iter = FaceSegIter(path_imgrec = os.path.join(config.dataset_path, 'train.rec'),
       batch_size = args.batch_size,
@@ -62,11 +131,11 @@ def main(args):
 
   data_shape, data_size = train_iter.get_data_shape()
   #label_shape = train_iter.get_label_shape()
-  sym = sym_heatmap.get_symbol(num_classes=config.num_classes)
+  sym = heatmap.get_symbol(num_classes=config.num_classes)
   if len(args.pretrained)==0:
       #data_shape_dict = {'data' : (args.per_batch_size,)+data_shape, 'softmax_label' : (args.per_batch_size,)+label_shape}
       data_shape_dict = train_iter.get_shape_dict()
-      arg_params, aux_params = sym_heatmap.init_weights(sym, data_shape_dict)
+      arg_params, aux_params = init_weights(sym, data_shape_dict)
   else:
       vec = args.pretrained.split(',')
       print('loading', vec)
@@ -103,46 +172,6 @@ def main(args):
   eval_metrics = [_metric]
   lr_epoch_steps = [int(x) for x in args.lr_epoch_step.split(',')]
   print('lr-epoch-steps', lr_epoch_steps)
-
-  def val_test():
-    results = []
-    test_batch_size = 1
-    all_layers = sym.get_internals()
-    vsym = all_layers['heatmap_output']
-    vmodel = mx.mod.Module(symbol=vsym, context=ctx, label_names = None)
-    #model.bind(data_shapes=[('data', (args.batch_size, 3, image_size[0], image_size[1]))], label_shapes=[('softmax_label', (args.batch_size,))])
-    vmodel.bind(data_shapes=[('data', (test_batch_size,)+data_shape)])
-    arg_params, aux_params = model.get_params()
-    vmodel.set_params(arg_params, aux_params)
-    for target in config.val_targets:
-        _file = os.path.join(config.dataset_path, '%s.rec'%target)
-        if not os.path.exists(_file):
-            continue
-        val_iter = FaceSegIter(path_imgrec = _file,
-          # batch_size = args.batch_size,
-          batch_size = test_batch_size,
-          aug_level = 0,
-          args = args,
-          )
-        _metric = NMEMetric()
-        val_metric = mx.metric.create(_metric)
-        val_metric.reset()
-        val_iter.reset()
-        nme = []
-        for i, eval_batch in enumerate(val_iter):
-          #print(eval_batch.data[0].shape, eval_batch.label[0].shape)
-          batch_data = mx.io.DataBatch(eval_batch.data)
-          vmodel.forward(batch_data, is_train=False)
-          # vmodel.update_metric(val_metric, eval_batch.label)
-          pred_label = vmodel.get_outputs()[-1].asnumpy()
-          label = eval_batch.label[0].asnumpy()
-          _nme = _metric.cal_nme(label, pred_label)
-          nme.append(_nme)
-        # nme_value = val_metric.get_name_value()[0][1]
-        nme_value = np.mean(nme)
-        results.append(nme_value)
-        print('[%d][%s]NME: %f'%(global_step[0], target, nme_value))
-    return results
   
   global_step = [0]
   highest_acc = [1.0, 1.0]
@@ -204,17 +233,17 @@ def main(args):
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Train face alignment')
   # general
-  parser.add_argument('--network', help='network name', default=default.network, type=str)
+  parser.add_argument('--topology', help='topology name', default=default.topology, type=str)
   parser.add_argument('--dataset', help='dataset name', default=default.dataset, type=str)
   args, rest = parser.parse_known_args()
-  generate_config(args.network, args.dataset)
+  generate_config(args.topology, args.dataset)
   parser.add_argument('--prefix', default=default.prefix, help='directory to save model.')
   parser.add_argument('--pretrained', default=default.pretrained, help='')
   parser.add_argument('--optimizer', default='nadam', help='')
   parser.add_argument('--lr', type=float, default=default.lr, help='')
   parser.add_argument('--wd', type=float, default=default.wd, help='')
   parser.add_argument('--per-batch-size', type=int, default=default.per_batch_size, help='')
-  parser.add_argument('--lr-epoch-step', help='learning rate steps (in epoch)', default=default.lr_step, type=str)
+  parser.add_argument('--lr-epoch-step', help='learning rate steps (in epoch)', default=default.lr_epoch_step, type=str)
   parser.add_argument('--ckpt', type=int, default=1, help='')
   parser.add_argument('--norm', type=int, default=0, help='')
   parser.add_argument('--exf', type=int, default=1, help='')

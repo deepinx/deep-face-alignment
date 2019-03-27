@@ -19,6 +19,25 @@ def transform(data, center, output_size, scale, rotation):
     cropped = cv2.warpAffine(data,trans,(output_size, output_size), borderValue = 0.0)
     return cropped, trans
 
+def transform2(data, label, center, output_size, scale, rotation):
+    record = np.zeros((4,), dtype=np.float32)
+    for b in xrange(label.shape[0]):
+      ind_gt = label[b]
+      if b==0:
+        record[0:2] = ind_gt
+        record[2:4] = ind_gt
+      else:
+        record[0:2] = np.minimum(record[0:2], ind_gt)
+        record[2:4] = np.maximum(record[2:4], ind_gt)
+    bbox = record
+    trans = estimate_trans_bbox(bbox, output_size, s = 1.4)
+    #print('M', scale, rotation, trans)
+    cropped = cv2.warpAffine(data,trans,(output_size, output_size), borderValue = 0.0)
+    # cv2.rectangle(data, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (0, 255, 0), 2)
+    # cv2.imshow("detection result", data)
+    # cv2.waitKey(0)
+    return cropped, trans
+
 def transform_pt(pt, trans):
     new_pt = np.array([pt[0], pt[1], 1.]).T
     new_pt = np.dot(trans, new_pt)
@@ -78,3 +97,48 @@ def estimate_trans_bbox(face, input_size, s = 2.0):
   M = np.array(M)
   return M
 
+
+def preprocess(data, label):
+  M = None
+  image_size = [data.shape[1], data.shape[0]]
+  landmark = np.zeros((5,2), dtype=np.float32)
+  landmark[0,:] = (label[36,:]+label[39,:])/2   #left eye
+  landmark[1,:] = (label[42,:]+label[45,:])/2   #right eye
+  landmark[2,:] = label[30,:]                   #nose
+  landmark[3,:] = label[48,:]                   #left mouth
+  landmark[4,:] = label[54,:]                   #right mouth
+  # for i in range(5):
+  #   cv2.circle(data, (landmark[i][0], landmark[i][1]), 1, (0, 0, 255), 2)
+  # cv2.imshow("landmark", data)
+  # cv2.waitKey(0)
+
+  if landmark is not None:
+    assert len(image_size)==2
+    src = np.array([
+      [38.2946, 41.6963],
+      [73.5318, 41.5014],
+      [56.0252, 61.7366],
+      [41.5493, 82.3655],
+      [70.7299, 82.2041] ], dtype=np.float32 )
+    if image_size[1]==384:
+      src = src * 2.0 + 80.0
+    dst = landmark.astype(np.float32)
+    # for i in range(5):
+    #   cv2.circle(data, (src[i][0], src[i][1]), 1, (0, 0, 255), 2)
+    # cv2.imshow("landmark", data)
+    # cv2.waitKey(0)
+
+    tform = stf.SimilarityTransform()
+    tform.estimate(dst, src)
+    M = tform.params[0:2,:]
+    warped = cv2.warpAffine(data, M, (image_size[1],image_size[0]), borderValue = 0.0)
+
+    label_out = np.zeros(label.shape, dtype=np.float32)
+    for i in xrange(label.shape[0]):
+      label_out[i] = transform_pt(label[i], M)
+    # for i in range(label.shape[0]):
+    #   cv2.circle(warped, (label_out[i][0], label_out[i][1]), 1, (0, 0, 255), 2)
+    # cv2.imshow("label", warped)
+    # cv2.waitKey(0)
+
+    return warped, label_out

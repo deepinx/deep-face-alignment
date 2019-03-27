@@ -6,6 +6,7 @@ import os
 import mxnet as mx
 import datetime
 import img_helper
+import matplotlib.pyplot as plt
 from mtcnn_detector import MtcnnDetector
 
 
@@ -57,8 +58,8 @@ class Handler:
       img2 = np.transpose(img2, (2,0,1)) #3*112*112, RGB
       # cv2.imshow("detection result", rimg)
       # cv2.waitKey(0)
-      filename = 'sample-images/%d.jpg'%(i+1)
-      cv2.imwrite(filename, rimg)
+      # filename = 'sample-images/%d.jpg'%(i+1)
+      # cv2.imwrite(filename, rimg)
       input_blob = np.zeros( (1, 3, self.image_size[1], self.image_size[0]),dtype=np.uint8 )
       input_blob[0] = img2
       ta = datetime.datetime.now()
@@ -77,17 +78,19 @@ class Handler:
     return ret, M
 
 ctx_id = 0
-img_path = './sample-images/t1.jpg'
+img_path = './sample-images/t4.jpg'
 img = cv2.imread(img_path)
 #img = np.zeros( (128,128,3), dtype=np.uint8 )
 
-handler = Handler('./models/model-hg2d3-cab/model', 0, ctx_id)
+handler = Handler('./models/model-sat2d3-cab-3d/model', 0, ctx_id)
 for _ in range(2):
   ta = datetime.datetime.now() 
   ret, M2 = handler.get(img)
   tb = datetime.datetime.now()
   print('get time cost', (tb-ta).total_seconds())
 #visualize landmark
+img2 = plt.imread(img_path)
+plt.imshow(img2)
 for i in range(ret.shape[0]): 
   landmark = ret[i]
   M = M2[i]
@@ -99,16 +102,29 @@ for i in range(ret.shape[0]):
     point = np.dot(IM, point)
     landmark[i] = point[0:2]
 
-  for i in range(landmark.shape[0]):
-    p = landmark[i]
-    point = (int(p[0]), int(p[1]))
-    cv2.circle(img, point, 1, (0, 255, 0), 2)
-cv2.imshow('alignment results', img)
-cv2.waitKey(0)
+#   for i in range(landmark.shape[0]):
+#     p = landmark[i]
+#     point = (int(p[0]), int(p[1]))
+#     cv2.circle(img, point, 1, (0, 255, 0), 2)
+# cv2.imshow('alignment results', img)
+# cv2.waitKey(0)
 
-filename = 'sample-images/landmark_test.png'
-print('writing', filename)
-cv2.imwrite(filename, img)
+# filename = 'sample-images/landmark_test_3d.png'
+# print('writing', filename)
+# cv2.imwrite(filename, img)
+
+  preds = landmark
+  plt.plot(preds[0:17,0],preds[0:17,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[17:22,0],preds[17:22,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[22:27,0],preds[22:27,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[27:31,0],preds[27:31,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[31:36,0],preds[31:36,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[36:42,0],preds[36:42,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[42:48,0],preds[42:48,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[48:60,0],preds[48:60,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5)
+  plt.plot(preds[60:68,0],preds[60:68,1],marker='o',markersize=1,linestyle='-',color='w',lw=0.5) 
+plt.axis('off')
+plt.show()
 
 
 
