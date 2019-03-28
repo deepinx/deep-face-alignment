@@ -16,6 +16,11 @@ config.multiplier = 1.0
 
 config.gaussian = 1
 
+config.ACT_BIT = 1
+config.bn_mom = 0.9
+config.workspace = 256
+config.memonger = False
+
 # network settings
 network = edict()
 
@@ -29,15 +34,15 @@ network.hourglass.net_block = 'cab'
 network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
-network.sat = edict()
-network.sat.net_coherent = False
-network.sat.net_sat = 1
-network.sat.net_n = 3
-network.sat.net_dcn = 0  #3
-network.sat.net_stacks = 2
-network.sat.net_block = 'cab'
-network.sat.net_binarize = False
-network.sat.losstype = 'heatmap'
+network.satnet = edict()
+network.satnet.net_coherent = False
+network.satnet.net_sat = 1
+network.satnet.net_n = 3
+network.satnet.net_dcn = 0  #3
+network.satnet.net_stacks = 2
+network.satnet.net_block = 'cab'
+network.satnet.net_binarize = False
+network.satnet.losstype = 'heatmap'
 
 
 # dataset settings
@@ -72,7 +77,7 @@ dataset.i3d.val_targets = ['AFLW2000-3D']
 default = edict()
 
 # default network
-default.network = 'sat'
+default.network = 'satnet'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset
@@ -81,7 +86,7 @@ default.frequent = 20
 default.verbose = 200
 default.kvstore = 'device'
 
-default.prefix = 'model/sat'
+default.prefix = 'model/satnet'
 default.end_epoch = 10000
 default.lr = 0.00025
 default.wd = 0.0

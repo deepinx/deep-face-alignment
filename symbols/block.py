@@ -6,11 +6,6 @@ import numpy as np
 from config import config
 
 
-ACT_BIT = 1
-bn_mom = 0.9
-workspace = 256
-memonger = False
-
 
 def Conv(**kwargs):
     body = mx.sym.Convolution(**kwargs)
@@ -25,6 +20,8 @@ def Act(data, act_type, name):
 
 
 def ConvFactory(data, num_filter, kernel, stride=(1, 1), pad=(0, 0), act_type="relu", mirror_attr={}, with_act=True, dcn=False, name=''):
+    bn_mom = config.bn_mom
+    workspace = config.workspace
     if not dcn:
       conv = mx.symbol.Convolution(
           data=data, num_filter=num_filter, kernel=kernel, stride=stride, pad=pad, no_bias=True, workspace=workspace, name=name+'_conv')
@@ -45,6 +42,10 @@ def ConvFactory(data, num_filter, kernel, stride=(1, 1), pad=(0, 0), act_type="r
 
 def conv_resnet(data, num_filter, stride, dim_match, name, binarize, dcn, dilate, **kwargs):
     bit = 1
+    ACT_BIT = config.ACT_BIT
+    bn_mom = config.bn_mom
+    workspace = config.workspace
+    memonger = config.memonger
     #print('in unit2')
     # the same as https://github.com/facebook/fb.resnet.torch#notes, a bit difference with origin paper
     bn1 = mx.sym.BatchNorm(data=data, fix_gamma=False, eps=2e-5, momentum=bn_mom, name=name + '_bn1')
@@ -92,6 +93,10 @@ def conv_resnet(data, num_filter, stride, dim_match, name, binarize, dcn, dilate
 
 def conv_hpm(data, num_filter, stride, dim_match, name, binarize, dcn, dilation, **kwargs):
     bit = 1
+    ACT_BIT = config.ACT_BIT
+    bn_mom = config.bn_mom
+    workspace = config.workspace
+    memonger = config.memonger
     #print('in unit2')
     # the same as https://github.com/facebook/fb.resnet.torch#notes, a bit difference with origin paper
     bn1 = mx.sym.BatchNorm(data=data, fix_gamma=False, eps=2e-5, momentum=bn_mom, name=name + '_bn1')
@@ -204,6 +209,7 @@ def conv_inception(data, num_filter, stride, dim_match, name, binarize, dcn, dil
     return conv4
 
 def conv_cab(data, num_filter, stride, dim_match, name, binarize, dcn, dilate, **kwargs):
+    workspace = config.workspace
     if stride[0]>1 or not dim_match:
         return conv_hpm(data, num_filter, stride, dim_match, name, binarize, dcn, dilate, **kwargs)
     cab = CAB(data, num_filter, 1, 4, workspace, name, dilate, 1)
@@ -220,8 +226,40 @@ def conv_block(data, num_filter, stride, dim_match, name, binarize, dcn, dilate)
     return conv_cab(data, num_filter, stride, dim_match, name, binarize, dcn, dilate)
 
 
+#def lin(data, num_filter, workspace, name, binarize, dcn):
+#  bit = 1
+#  ACT_BIT = config.ACT_BIT
+#  bn_mom = config.bn_mom
+#  workspace = config.workspace
+#  if not binarize:
+#    if not dcn:
+#        conv1 = Conv(data=data, num_filter=num_filter, kernel=(1,1), stride=(1,1), pad=(0,0),
+#                                      no_bias=True, workspace=workspace, name=name + '_conv')
+#        bn1 = mx.sym.BatchNorm(data=conv1, fix_gamma=False, momentum=bn_mom, eps=2e-5, name=name + '_bn')
+#        act1 = Act(data=bn1, act_type='relu', name=name + '_relu')
+#        return act1
+#    else:
+#        bn1 = mx.sym.BatchNorm(data=data, fix_gamma=False, momentum=bn_mom, eps=2e-5, name=name + '_bn')
+#        act1 = Act(data=bn1, act_type='relu', name=name + '_relu')
+#        conv1_offset = mx.symbol.Convolution(name=name+'_conv_offset', data = act1,
+#                num_filter=18, pad=(1, 1), kernel=(3, 3), stride=(1, 1))
+#        conv1 = mx.contrib.symbol.DeformableConvolution(name=name+"_conv", data=act1, offset=conv1_offset,
+#                num_filter=num_filter, pad=(1,1), kernel=(3, 3), num_deformable_group=1, stride=(1, 1), dilate=(1, 1), no_bias=False)
+#        #conv1 = Conv(data=act1, num_filter=num_filter, kernel=(3,3), stride=(1,1), pad=(1,1),
+#        #                              no_bias=False, workspace=workspace, name=name + '_conv')
+#        return conv1
+#  else:
+#    bn1 = mx.sym.BatchNorm(data=data, fix_gamma=False, momentum=bn_mom, eps=2e-5, name=name + '_bn')
+#    act1 = Act(data=bn1, act_type='relu', name=name + '_relu')
+#    conv1 = mx.sym.QConvolution_v1(data=act1, num_filter=num_filter, kernel=(1,1), stride=(1,1), pad=(0,0),
+#                               no_bias=True, workspace=workspace, name=name + '_conv', act_bit=ACT_BIT, weight_bit=bit)
+#    conv1 = mx.sym.BatchNorm(data=conv1, fix_gamma=False, momentum=bn_mom, eps=2e-5, name=name + '_bn2')
+#    return conv1
+
 
 def lin3(data, num_filter, workspace, name, k, g=1, d=1):
+    bn_mom = config.bn_mom
+    workspace = config.workspace
     if k!=3:
         conv1 = Conv(data=data, num_filter=num_filter, kernel=(k,k), stride=(1,1), pad=((k-1)//2,(k-1)//2), num_group=g,
                                       no_bias=True, workspace=workspace, name=name + '_conv')

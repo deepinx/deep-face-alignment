@@ -7,8 +7,8 @@ import mxnet as mx
 import datetime
 import img_helper
 import matplotlib.pyplot as plt
-from mtcnn_detector import MtcnnDetector
-
+# from mtcnn_detector import MtcnnDetector
+from essh_detector import ESSHDetector
 
 class Handler:
   def __init__(self, prefix, epoch, ctx_id=0):
@@ -27,20 +27,24 @@ class Handler:
     model.bind(for_training=False, data_shapes=[('data', (1, 3, image_size[0], image_size[1]))])
     model.set_params(arg_params, aux_params)
     self.model = model
-    mtcnn_path = os.path.join(os.path.dirname(__file__),  'mtcnn_model')
-    self.det_threshold = [0.6,0.7,0.8]
-    self.detector = MtcnnDetector(model_folder=mtcnn_path, ctx=mx.cpu(), num_worker=1, accurate_landmark = True, threshold=self.det_threshold)
+    # mtcnn_path = os.path.join(os.path.dirname(__file__),  'mtcnn_model')
+    # self.det_threshold = [0.6,0.7,0.8]
+    # self.detector = MtcnnDetector(model_folder=mtcnn_path, ctx=mx.cpu(), num_worker=1, accurate_landmark = True, threshold=self.det_threshold)
+    self.detector = ESSHDetector('./essh-model/essh', 0)
   
   def get(self, img):
-    ret = self.detector.detect_face(img)
+    # ret = self.detector.detect_face(img)
+    ret = self.detector.detect(img, threshold=0.5)
     if ret is None:
       return None
-    bbox, points = ret
-    if bbox.shape[0]==0:
-      return None
-    bbox = bbox[:,0:4]
-    points = points[:,:].reshape((-1,2,5))
-    points = np.transpose(points, (0,2,1))
+    bbox = ret[:,0:4]
+    points = ret[:, 5:15].reshape(-1,5,2)
+    # bbox, points = ret
+    # if bbox.shape[0]==0:
+    #   return None
+    # bbox = bbox[:,0:4]
+    # points = points[:,:].reshape((-1,2,5))
+    # points = np.transpose(points, (0,2,1))
     # for b in bbox:
     #   cv2.rectangle(img, (int(b[0]), int(b[1])), (int(b[2]), int(b[3])), (0, 255, 0), 2)
     # for p in points:
@@ -78,11 +82,11 @@ class Handler:
     return ret, M
 
 ctx_id = 0
-img_path = './sample-images/t4.jpg'
+img_path = './sample-images/t3.jpg'
 img = cv2.imread(img_path)
 #img = np.zeros( (128,128,3), dtype=np.uint8 )
 
-handler = Handler('./models/model-sat2d3-cab-3d/model', 0, ctx_id)
+handler = Handler('./models/model-hg2d3-cab-3d/model', 0, ctx_id)
 for _ in range(2):
   ta = datetime.datetime.now() 
   ret, M2 = handler.get(img)

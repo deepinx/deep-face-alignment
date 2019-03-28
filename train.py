@@ -17,7 +17,8 @@ from config import config, default, generate_config
 from optimizer import ONadam
 from metric import LossValueMetric, NMEMetric
 sys.path.append(os.path.join(os.path.dirname(__file__), 'symbols'))
-import heatmap
+import hourglass
+import satnet
 #import sym_fc
 #from symbol import fc
 
@@ -131,7 +132,7 @@ def main(args):
 
   data_shape, data_size = train_iter.get_data_shape()
   #label_shape = train_iter.get_label_shape()
-  sym = heatmap.get_symbol(num_classes=config.num_classes)
+  sym = eval(config.network).get_symbol(num_classes=config.num_classes)
   if len(args.pretrained)==0:
       #data_shape_dict = {'data' : (args.per_batch_size,)+data_shape, 'softmax_label' : (args.per_batch_size,)+label_shape}
       data_shape_dict = train_iter.get_shape_dict()

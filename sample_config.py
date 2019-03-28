@@ -16,6 +16,11 @@ config.multiplier = 1.0
 
 config.gaussian = 0
 
+config.ACT_BIT = 1
+config.bn_mom = 0.9
+config.workspace = 256
+config.memonger = False
+
 # network settings
 network = edict()
 
@@ -29,15 +34,15 @@ network.hourglass.net_block = 'resnet'
 network.hourglass.net_binarize = False
 network.hourglass.losstype = 'heatmap'
 
-network.sat = edict()
-network.sat.net_coherent = False
-network.sat.net_sta = 1
-network.sat.net_n = 3
-network.sat.net_dcn = 3
-network.sat.net_stacks = 2
-network.sat.net_block = 'cab'
-network.sat.net_binarize = False
-network.sat.losstype = 'heatmap'
+network.satnet = edict()
+network.satnet.net_coherent = False
+network.satnet.net_sta = 1
+network.satnet.net_n = 3
+network.satnet.net_dcn = 3
+network.satnet.net_stacks = 2
+network.satnet.net_block = 'cab'
+network.satnet.net_binarize = False
+network.satnet.losstype = 'heatmap'
 
 
 # dataset settings
