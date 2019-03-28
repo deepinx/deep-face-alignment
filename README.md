@@ -40,17 +40,21 @@ This repository has been tested under the following environment:
 -   Ubuntu 18.04
 -   Mxnet-cu90 (==1.3.0)
 
-## Training
+## Installation
 
 1.  Prepare the environment.
 
 2.  Clone the repository.
+    
+3.  Type  `make`  to build necessary cxx libs.
 
-3.  Download the training/validation dataset and unzip it to your project directory.
+## Training
+
+  -  Download the training/validation dataset and unzip it to your project directory.
     
-3.  You can define different loss-type/network topology/dataset in ``config.py``(from ``sample_config.py``).
+  -  You can define different loss-type/network topology/dataset in ``config.py``(from ``sample_config.py``).
     
-4.  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --network satnet`` to train stacked Scale Aggregation Topology (SAT) networks or ``CUDA_VISIBLE_DEVICES='0' train.py --network hourglass`` to train stacked Hourglass models. Instead, you can also edit  _`train.sh`_  and run  _`sh train.sh`_  to train your models.
+  -  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --network satnet`` to train stacked Scale Aggregation Topology (SAT) networks or ``CUDA_VISIBLE_DEVICES='0' train.py --network hourglass`` to train stacked Hourglass models. Instead, you can also edit  _`train.sh`_  and run  _`sh train.sh`_  to train your models.
 
 ## Testing
 
