@@ -50,13 +50,15 @@ This repository has been tested under the following environment:
     
 3.  You can define different loss-type/network topology/dataset in ``config.py``(from ``sample_config.py``).
     
-4.  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --topology sat`` to train stacked Scale Aggregation Topology (SAT) models or ``CUDA_VISIBLE_DEVICES='0' train.py --topology hourglass`` to train stacked hourglass networks. Instead, you can also edit  _`train.sh`_  and run  _`sh train.sh`_  to train your models.
+4.  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --network satnet`` to train stacked Scale Aggregation Topology (SAT) networks or ``CUDA_VISIBLE_DEVICES='0' train.py --network hourglass`` to train stacked Hourglass models. Instead, you can also edit  _`train.sh`_  and run  _`sh train.sh`_  to train your models.
 
 ## Testing
 
+  -  Download the ESSH model from [BaiduCloud](https://pan.baidu.com/s/1sghM7w1nN3j8-UHfBHo6rA) or [GoogleDrive](https://drive.google.com/open?id=1eX_i0iZxZTMyJ4QccYd2F4x60GbZqQQJ) and place it in *`./essh-model/`*.
+
   -  Download the pre-trained model and place it in *`./models/`*.
 
-  -  You can use `python test.py` to test this alignment method.
+  -  You can use `python test.py` to test your models for 2D and 3D face alignment.
   
 ## Results
 
@@ -81,6 +83,28 @@ MIT LICENSE
   author={Guo, Jia and Deng, Jiankang and Xue, Niannan and Zafeiriou, Stefanos},
   journal={arXiv preprint arXiv:1812.01936},
   year={2018}
+}
+
+@inproceedings{Deng2018Cascade,
+  title={Cascade Multi-View Hourglass Model for Robust 3D Face Alignment},
+  author={Deng, Jiankang and Zhou, Yuxiang and Cheng, Shiyang and Zaferiou, Stefanos},
+  booktitle={2018 13th IEEE International Conference on Automatic Face & Gesture Recognition (FG 2018)},
+  pages={399-403},
+  year={2018},
+}
+
+@article{Bulat2018Hierarchical,
+  title={Hierarchical binary CNNs for landmark localization with limited resources},
+  author={Bulat, Adrian and Tzimiropoulos, Yorgos},
+  journal={IEEE Transactions on Pattern Analysis & Machine Intelligence},
+  year={2018},
+}
+
+@inproceedings{Jing2017Stacked,
+  title={Stacked Hourglass Network for Robust Facial Landmark Localisation},
+  author={Jing, Yang and Liu, Qingshan and Zhang, Kaihua and Jing, Yang and Liu, Qingshan and Zhang, Kaihua and Jing, Yang and Liu, Qingshan and Zhang, Kaihua},
+  booktitle={IEEE Conference on Computer Vision & Pattern Recognition Workshops},
+  year={2017},
 }
 ```
 
