@@ -105,12 +105,21 @@ def estimate_trans_bbox(face, input_size, s = 2.0):
 def preprocess(data, label, output_size):
   M = None
   image_size = [data.shape[1], data.shape[0]]
-  landmark = np.zeros((5,2), dtype=np.float32)
-  landmark[0,:] = (label[36,:]+label[39,:])/2   #left eye
-  landmark[1,:] = (label[42,:]+label[45,:])/2   #right eye
-  landmark[2,:] = label[30,:]                   #nose
-  landmark[3,:] = label[48,:]                   #left mouth
-  landmark[4,:] = label[54,:]                   #right mouth
+
+  if label.shape[0]==68:
+    landmark = np.zeros((5,2), dtype=np.float32)
+    landmark[0,:] = (label[36,:]+label[39,:])/2   #left eye
+    landmark[1,:] = (label[42,:]+label[45,:])/2   #right eye
+    landmark[2,:] = label[30,:]                   #nose
+    landmark[3,:] = label[48,:]                   #left mouth
+    landmark[4,:] = label[54,:]                   #right mouth
+  elif label.shape[0]==5:
+    landmark = np.zeros((5,2), dtype=np.float32)
+    landmark[0,:] = label[0,:]                   #left eye
+    landmark[1,:] = label[1,:]                   #right eye
+    landmark[2,:] = label[2,:]                   #nose
+    landmark[3,:] = label[3,:]                   #left mouth
+    landmark[4,:] = label[4,:]                   #right mouth
   # for i in range(5):
   #   cv2.circle(data, (landmark[i][0], landmark[i][1]), 1, (0, 0, 255), 2)
   # cv2.imshow("landmark", data)
