@@ -99,12 +99,12 @@ for i in range(ret.shape[0]):
   landmark = ret[i]
   M = M2[i]
   IM = cv2.invertAffineTransform(M)
-  for i in range(landmark.shape[0]):
-    p = landmark[i]
+  for j in range(landmark.shape[0]):
+    p = landmark[j]
     point = np.ones( (3,), dtype=np.float32)
     point[0:2] = p
     point = np.dot(IM, point)
-    landmark[i] = point[0:2]
+    landmark[j] = point[0:2]
 
 #   for i in range(landmark.shape[0]):
 #     p = landmark[i]
