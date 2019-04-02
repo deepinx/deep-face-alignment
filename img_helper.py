@@ -29,8 +29,12 @@ def transform2(data, label, center, output_size, scale, rotation):
       else:
         record[0:2] = np.minimum(record[0:2], ind_gt)
         record[2:4] = np.maximum(record[2:4], ind_gt)
+    # record[1] = 0 if record[1]<36 else record[1]-36   # ibug
+    # record[1] = 0 if record[1]<45 else record[1]-45   # cofw_testset
+    # record[1] = 0 if record[1]<40 else record[1]-40   # 300W
+    record[1] = 0 if record[1]<30 else record[1]-30   # AFLW2000-3D
     bbox = record
-    trans = estimate_trans_bbox(bbox, output_size, s = 1.4)
+    trans = estimate_trans_bbox(bbox, output_size, s = 1.2)
     #print('M', scale, rotation, trans)
     cropped = cv2.warpAffine(data,trans,(output_size, output_size), borderValue = 0.0)
     # cv2.rectangle(data, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (0, 255, 0), 2)
@@ -98,7 +102,7 @@ def estimate_trans_bbox(face, input_size, s = 2.0):
   return M
 
 
-def preprocess(data, label):
+def preprocess(data, label, output_size):
   M = None
   image_size = [data.shape[1], data.shape[0]]
   landmark = np.zeros((5,2), dtype=np.float32)
@@ -121,7 +125,7 @@ def preprocess(data, label):
       [41.5493, 82.3655],
       [70.7299, 82.2041] ], dtype=np.float32 )
     if image_size[1]==384:
-      src = src * 2.0 + 80.0
+      src = src * 2 + 80.0
     dst = landmark.astype(np.float32)
     # for i in range(5):
     #   cv2.circle(data, (src[i][0], src[i][1]), 1, (0, 0, 255), 2)

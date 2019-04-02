@@ -211,7 +211,6 @@ class FaceSegIter(DataIter):
           retry+=1
           succ = True
           _scale = base_scale
-          # data, label = img_helper.preprocess(data, label)
           if self.aug_level>0:
             rotate = np.random.randint(-40, 40)
             scale_config = 0.2
@@ -221,11 +220,10 @@ class FaceSegIter(DataIter):
             _scale = int(base_scale * scale_ratio)
             #translate = np.random.randint(-5, 5, size=(2,))
             #center += translate
-          data_out, trans = img_helper.transform(data, center, self.input_img_size, _scale, rotate)
-          # data_out2, trans2 = img_helper.transform2(data, label, center, self.input_img_size, _scale, rotate)
-          # cv2.imshow("data_out", data_out)
-          # cv2.imshow("data_out2", data_out2)
-          # cv2.waitKey(0)
+            data_out, trans = img_helper.transform(data, center, self.input_img_size, _scale, rotate)
+          else:
+            data, label = img_helper.preprocess(data, label, self.input_img_size)
+            data_out, trans = img_helper.transform2(data, label, center, self.input_img_size, _scale, rotate)
           #data_out = img_helper.crop2(data, center, _scale, (self.input_img_size, self.input_img_size), rot=rotate)
           label_out = np.zeros(self.label_shape, dtype=np.float32)
           #print('out shapes', data_out.shape, label_out.shape)
