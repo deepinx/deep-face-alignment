@@ -5,7 +5,7 @@ import mxnet as mx
 import numpy as np
 from config import config
 from block import conv_block, ConvFactory
-from heatmap_loss import l2_loss, ce_loss, SymCoherent
+from heatmap import l2_loss, ce_loss, SymCoherent
 
 
 
@@ -100,7 +100,11 @@ def get_symbol(num_classes):
 
     for i in xrange(nStacks):
       shortcut = body
-      body = hourglass(body, nFilters, nModules, config.net_n, workspace, 'stack%d_hg'%(i), binarize, dcn)
+      if config.net_sat>0:
+        sat = SAT(body, nFilters, nModules, config.net_n+1, workspace, 'sat%d'%(i))
+        body = sat.get()
+      else:
+        body = hourglass(body, nFilters, nModules, config.net_n, workspace, 'stack%d_hg'%(i), binarize, dcn)
       for j in xrange(nModules):
         body = conv_block(body, nFilters, (1,1), True, 'stack%d_unit%d'%(i,j), binarize, dcn, 1)
       _dcn = True if config.net_dcn>=2 else False
@@ -118,23 +122,27 @@ def get_symbol(num_classes):
           #out = Conv(data=ll, num_filter=num_classes, kernel=(3,3), stride=(1,1), pad=(1,1),
           #                          name=_name, workspace=workspace)
 
-      if i<nStacks-1:
-        ll2 = Conv(data=ll, num_filter=nFilters, kernel=(1, 1), stride=(1,1), pad=(0,0),
-                                  name="stack%d_ll2"%(i), workspace=workspace)
-        out2 = Conv(data=out, num_filter=nFilters, kernel=(1, 1), stride=(1,1), pad=(0,0),
-                                  name="stack%d_out2"%(i), workspace=workspace)
-        body = mx.symbol.add_n(shortcut, ll2, out2)
-        _dcn = True if (config.net_dcn==1 or config.net_dcn==3) else False
-        if _dcn:
-            _name = "stack%d_out3" % (i)
-            out3_offset = mx.symbol.Convolution(name=_name+'_offset', data = body,
-                  num_filter=18, pad=(1, 1), kernel=(3, 3), stride=(1, 1))
-            out3 = mx.contrib.symbol.DeformableConvolution(name=_name, data=body, offset=out3_offset,
-                  num_filter=nFilters, pad=(1,1), kernel=(3, 3), num_deformable_group=1, stride=(1, 1), dilate=(1, 1), no_bias=False)
-            body = out3
-      elif i==nStacks-1:
+      _dcn = True if (config.net_dcn==1 or config.net_dcn==3) else False
+      if i<nStacks-1 or _dcn:
+          ll2 = Conv(data=ll, num_filter=nFilters, kernel=(1, 1), stride=(1,1), pad=(0,0),
+                                    name="stack%d_ll2"%(i), workspace=workspace)
+          out2 = Conv(data=out, num_filter=nFilters, kernel=(1, 1), stride=(1,1), pad=(0,0),
+                                    name="stack%d_out2"%(i), workspace=workspace)
+          body = mx.symbol.add_n(shortcut, ll2, out2)
+      if _dcn:
+          _name = "stack%d_out3" % (i)
+          out3_offset = mx.symbol.Convolution(name=_name+'_offset', data = body,
+                num_filter=18, pad=(1, 1), kernel=(3, 3), stride=(1, 1))
+          out3 = mx.contrib.symbol.DeformableConvolution(name=_name, data=body, offset=out3_offset,
+                num_filter=num_classes, pad=(1,1), kernel=(3, 3), num_deformable_group=1, stride=(1, 1), dilate=(1, 1), no_bias=False)
+          if i<nStacks-1:
+              body = Conv(data=out3, num_filter=nFilters, kernel=(1, 1), stride=(1,1), pad=(0,0),
+                                        name="stack%d_body"%(i), workspace=workspace)
+      if i==nStacks-1:
+          if _dcn:
+              out = out3
           heatmap = out
-      
+
       # loss = ce_loss(out, ref_label)
       # loss = loss/nStacks
       loss = l2_loss(out, ref_label)

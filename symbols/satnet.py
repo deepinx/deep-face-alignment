@@ -5,7 +5,7 @@ import mxnet as mx
 import numpy as np
 from config import config
 from block import CAB, lin3, conv_block, ConvFactory
-from heatmap_loss import l2_loss, ce_loss, SymCoherent
+from heatmap import l2_loss, ce_loss, SymCoherent
 
 
 
@@ -170,8 +170,11 @@ def get_symbol(num_classes):
 
     for i in xrange(nStacks):
       shortcut = body
-      sat = SAT(body, nFilters, nModules, config.net_n+1, workspace, 'sat%d'%(i))
-      body = sat.get()
+      if config.net_sat>0:
+        sat = SAT(body, nFilters, nModules, config.net_n+1, workspace, 'sat%d'%(i))
+        body = sat.get()
+      else:
+        body = hourglass(body, nFilters, nModules, config.net_n, workspace, 'stack%d_hg'%(i), binarize, dcn)
       for j in xrange(nModules):
         body = conv_block(body, nFilters, (1,1), True, 'stack%d_unit%d'%(i,j), binarize, dcn, 1)
       _dcn = True if config.net_dcn>=2 else False
