@@ -71,7 +71,7 @@ Results of 2D face alignment (inferenced from model *Hourglass2(d=3)-CAB*) are s
 
 ![2D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_2d.png)
 
-Results on ALFW-2000 dataset (inferenced from model *SAT2(d=3)-CAB-3D*) are shown below.
+Results on ALFW-2000 dataset (inferenced from model *Hourglass2(d=3)-CAB-3D*) are shown below.
 
 ![3D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_3d.png)
 
