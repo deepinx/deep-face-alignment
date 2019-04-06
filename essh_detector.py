@@ -89,7 +89,7 @@ class ESSHDetector:
             idx = 3
           elif s == 8:
             idx = 6
-          print('getting', im_scale, stride, idx, len(net_out), data.shape, file=sys.stderr)
+          # print('getting', im_scale, stride, idx, len(net_out), data.shape, file=sys.stderr)
 
           scores = net_out[idx].asnumpy()
           # print(scores.shape)

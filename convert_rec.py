@@ -8,8 +8,8 @@ import cv2
 # dataset = 'data_2d/ibug'
 # dataset = 'data_2d/300W'
 # dataset = 'data_2d/cofw_testset'
-dataset = 'data_3d/train'
-# dataset = 'data_3d/AFLW2000-3D'
+# dataset = 'data_3d/train'
+dataset = 'data_3d/AFLW2000-3D'
 source_dir = '/media/3T_disk/my_datasets/sdu_net/'
 output_dir = '/media/3T_disk/my_datasets/sdu_net/%s'%dataset
 
@@ -29,8 +29,7 @@ for img_idx in seq:
     image = mx.image.imdecode(img).asnumpy()
   except:
     continue
-  img = mx.image.imdecode(img).asnumpy()
-  img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+  img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
   hlabel = np.array(header.label).reshape((68, 2))
   hlabel = hlabel[:,::-1] #convert to X/W first
 

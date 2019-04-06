@@ -19,21 +19,26 @@ def transform(data, center, output_size, scale, rotation):
     cropped = cv2.warpAffine(data,trans,(output_size, output_size), borderValue = 0.0)
     return cropped, trans
 
-def transform2(data, label, center, output_size, scale, rotation):
-    record = np.zeros((4,), dtype=np.float32)
-    for b in xrange(label.shape[0]):
-      ind_gt = label[b]
-      if b==0:
-        record[0:2] = ind_gt
-        record[2:4] = ind_gt
+def transform2(data, label, output_size, bbox=None, dataset='ibug'):
+    if bbox is None:
+      record = np.zeros((4,), dtype=np.float32)
+      for b in xrange(label.shape[0]):
+        ind_gt = label[b]
+        if b==0:
+          record[0:2] = ind_gt
+          record[2:4] = ind_gt
+        else:
+          record[0:2] = np.minimum(record[0:2], ind_gt)
+          record[2:4] = np.maximum(record[2:4], ind_gt)
+      if dataset=='ibug':
+        record[1] = 0 if record[1]<36 else record[1]-36   # ibug
+      elif dataset=='cofw_testset':
+        record[1] = 0 if record[1]<45 else record[1]-45   # cofw_testset
+      elif dataset=='300W':
+        record[1] = 0 if record[1]<40 else record[1]-40   # 300W
       else:
-        record[0:2] = np.minimum(record[0:2], ind_gt)
-        record[2:4] = np.maximum(record[2:4], ind_gt)
-    # record[1] = 0 if record[1]<36 else record[1]-36   # ibug
-    # record[1] = 0 if record[1]<45 else record[1]-45   # cofw_testset
-    # record[1] = 0 if record[1]<40 else record[1]-40   # 300W
-    record[1] = 0 if record[1]<30 else record[1]-30   # AFLW2000-3D
-    bbox = record
+        record[1] = 0 if record[1]<30 else record[1]-30   # AFLW2000-3D
+      bbox = record
     trans = estimate_trans_bbox(bbox, output_size, s = 1.2)
     #print('M', scale, rotation, trans)
     cropped = cv2.warpAffine(data,trans,(output_size, output_size), borderValue = 0.0)
@@ -133,7 +138,7 @@ def preprocess(data, label, output_size):
       [56.0252, 61.7366],
       [41.5493, 82.3655],
       [70.7299, 82.2041] ], dtype=np.float32 )
-    if image_size[1]==384:
+    if output_size==384:
       src = src * 2 + 80.0
     dst = landmark.astype(np.float32)
     # for i in range(5):
@@ -143,15 +148,15 @@ def preprocess(data, label, output_size):
 
     tform = stf.SimilarityTransform()
     tform.estimate(dst, src)
-    M = tform.params[0:2,:]
-    warped = cv2.warpAffine(data, M, (image_size[1],image_size[0]), borderValue = 0.0)
+    trans = tform.params[0:2,:]
+    warped = cv2.warpAffine(data, trans, (output_size,output_size), borderValue = 0.0)
 
     label_out = np.zeros(label.shape, dtype=np.float32)
     for i in xrange(label.shape[0]):
-      label_out[i] = transform_pt(label[i], M)
+      label_out[i] = transform_pt(label[i], trans)
     # for i in range(label.shape[0]):
     #   cv2.circle(warped, (label_out[i][0], label_out[i][1]), 1, (0, 0, 255), 2)
     # cv2.imshow("label", warped)
     # cv2.waitKey(0)
 
-    return warped, label_out
+    return warped, label_out, trans

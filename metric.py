@@ -88,6 +88,21 @@ class NMEMetric(mx.metric.EvalMetric):
       nme.append(_nme)
     return np.mean(nme)
 
+  def calculate_nme(self, label, pred_label):
+    record = np.zeros((4,), dtype=np.float32)
+    record[0:2] = np.min(label, axis=0)
+    record[2:4] = np.max(label, axis=0)
+    item = np.sqrt(np.sum(np.square(label-pred_label), axis=1))
+    _nme = np.mean(item)
+    if config.landmark_type=='2d':
+        left_eye = (label[36]+label[39])/2
+        right_eye = (label[42]+label[45])/2
+        _dist = np.sqrt(np.sum(np.square(left_eye-right_eye)))
+    else:
+        _dist = np.sqrt((record[2]-record[0])*(record[3]-record[1]))
+    _nme /= _dist
+    return _nme
+
   def update(self, labels, preds):
     self.count+=1
     label = labels[0].asnumpy()

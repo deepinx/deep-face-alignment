@@ -222,8 +222,8 @@ class FaceSegIter(DataIter):
             #center += translate
             data_out, trans = img_helper.transform(data, center, self.input_img_size, _scale, rotate)
           else:
-            data, label = img_helper.preprocess(data, label, self.input_img_size)
-            data_out, trans = img_helper.transform2(data, label, center, self.input_img_size, _scale, rotate)
+            data, label, trans = img_helper.preprocess(data, label, data.shape[0])
+            data_out, trans = img_helper.transform2(data, label, self.input_img_size)
           #data_out = img_helper.crop2(data, center, _scale, (self.input_img_size, self.input_img_size), rot=rotate)
           label_out = np.zeros(self.label_shape, dtype=np.float32)
           #print('out shapes', data_out.shape, label_out.shape)
