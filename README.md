@@ -65,13 +65,41 @@ This repository has been tested under the following environment:
 
   -  You can use `python test.py` to test your models for 2D and 3D face alignment.
   
+## Evaluation
+  
+  To evaluate pre-trained models on IBUG, COFW, 300W and AFLW2000-3D testset, you can use 'python test_rec_nme.py' to obtain the Normalised Mean Error (NME) on the testset. We give some examples below. Our experiments were conducted on the GTX 1080Ti GPU.
+  
+  1. Evaluate model *Hourglass2(d=3)-CAB* with 2D landmarks on IBUG testset.
+  
+```
+python test_rec_nme.py --dataset 'ibug' --prefix './models/model-hg2d3-cab/model' --epoch 0 --gpu 0 --landmark-type 2d
+```
+  
+  2. Evaluate model *SAT2(d=3)-CAB* with 2D landmarks on COFW testset.
+  
+```
+python test_rec_nme.py --dataset 'cofw_testset' --prefix './models/model-sat2d3-cab/model' --epoch 0 --gpu 0 --landmark-type 2d
+```
+
+  3. Evaluate model *SAT2(d=3)-HPM* with 2D landmarks on 300W testset.
+  
+```
+python test_rec_nme.py --dataset '300W' --prefix './models/model-hg2d3-hpm/model' --epoch 0 --gpu 0 --landmark-type 2d
+```
+  
+  4. Evaluate model  *Hourglass2(d=3)-CAB-3D* with 3D landmarks on AFLW2000-3D testset.
+  
+```
+python test_rec_nme.py --dataset 'AFLW2000-3D' --prefix './models/model-hg2d3-cab-3d/model' --epoch 0 --gpu 0 --landmark-type 3d
+```
+  
 ## Results
 
 Results of 2D face alignment (inferenced from model *Hourglass2(d=3)-CAB*) are shown below.
 
 ![2D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_2d.png)
 
-Results on ALFW-2000 dataset (inferenced from model *Hourglass2(d=3)-CAB-3D*) are shown below.
+Results on ALFW2000-3D dataset (inferenced from model *Hourglass2(d=3)-CAB-3D*) are shown below.
 
 ![3D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_3d.png)
 
