@@ -38,7 +38,7 @@ network.satnet = edict()
 network.satnet.net_coherent = False
 network.satnet.net_sat = 1
 network.satnet.net_n = 3
-network.satnet.net_dcn = 0  #3
+network.satnet.net_dcn = 0
 network.satnet.net_stacks = 2
 network.satnet.net_block = 'cab'
 network.satnet.net_binarize = False
@@ -77,7 +77,7 @@ dataset.i3d.val_targets = ['AFLW2000-3D']
 default = edict()
 
 # default network
-default.network = 'satnet'
+default.network = 'hourglass'
 default.pretrained = ''
 default.pretrained_epoch = 0
 # default dataset
@@ -86,7 +86,7 @@ default.frequent = 20
 default.verbose = 200
 default.kvstore = 'device'
 
-default.prefix = 'model/satnet'
+default.prefix = 'model/hourglass'
 default.end_epoch = 10000
 default.lr = 0.00025
 default.wd = 0.0

@@ -71,10 +71,10 @@ class Handler:
 
 
 if __name__ == '__main__':
-  ctx_id = 0
   img_path = './sample-images/t2.jpg'
+  prefix = './models/model-hg2d3-cab-3d/model'
   img = cv2.imread(img_path)
-  handler = Handler('./models/model-hg2d3-cab-3d/model', 0, ctx_id)
+  handler = Handler(prefix=prefix, epoch=0, ctx_id=0)
   for _ in range(2):
     ta = datetime.datetime.now() 
     landmark_list = handler.get_landmark(img)
