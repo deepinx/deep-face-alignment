@@ -55,7 +55,16 @@ This repository has been tested under the following environment:
     
   -  You can define different loss-type/network topology/dataset in ``config.py``(from ``sample_config.py``).
     
-  -  You can use ``CUDA_VISIBLE_DEVICES='0' train.py --network satnet`` to train stacked Scale Aggregation Topology (SAT) networks or ``CUDA_VISIBLE_DEVICES='0' train.py --network hourglass`` to train stacked Hourglass models. Instead, you can also edit  _`train.sh`_  and run  _`sh train.sh`_  to train your models.
+  -  You can edit  _`train.sh`_  and run  _`sh train.sh`_ or use `python train.py`  to train your models. The following commands are some examples. Our experiments were conducted on a GTX 1080Ti GPU.
+  
+  (1) Train stacked Scale Aggregation Topology (SAT) networks with channel aggregation block (CAB). 
+  ```
+  CUDA_VISIBLE_DEVICES='0' python train.py --network satnet --prefix "./model/model-sat2d3-cab/model" --per-batch-size 16 --lr 1e-4 --lr-epoch-step '20,35,45'
+  ```
+  (2) Train stacked Hourglass models with parallel and multi-scale (HPM) residual block. 
+  ```
+  CUDA_VISIBLE_DEVICES='0' python train.py --network hourglass --prefix "./model/model-hg2d3-hpm/model" --per-batch-size 16 --lr 1e-4 --lr-epoch-step '20,35,45'
+  ``` 
 
 ## Testing
 
@@ -67,7 +76,7 @@ This repository has been tested under the following environment:
   
 ## Evaluation
   
-  To evaluate pre-trained models on IBUG, COFW, 300W and AFLW2000-3D testset, you can use 'python test_rec_nme.py' to obtain the Normalised Mean Error (NME) on the testset. We give some examples below. Our experiments were conducted on the GTX 1080Ti GPU.
+  To evaluate pre-trained models on IBUG, COFW, 300W and AFLW2000-3D testset, you can use 'python test_rec_nme.py' to obtain the Normalised Mean Error (NME) on the testset. We give some examples below. 
   
   1. Evaluate model *Hourglass2(d=3)-CAB* with 2D landmarks on IBUG testset.
   
