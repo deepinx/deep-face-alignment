@@ -106,11 +106,11 @@ python test_rec_nme.py --dataset 'AFLW2000-3D' --prefix './models/model-hg2d3-ca
 
 Results of 2D face alignment (inferenced from model *Hourglass2(d=3)-CAB*) are shown below.
 
-![2D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_2d.png)
+<div align=center><img src="https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_2d.png" width="700"/></div>
 
 Results on ALFW2000-3D dataset (inferenced from model *Hourglass2(d=3)-CAB-3D*) are shown below.
 
-![3D Alignment Results](https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_3d.png)
+<div align=center><img src="https://raw.githubusercontent.com/deepinx/sdu-face-alignment/master/sample-images/landmark_test_3d.png" width="720"/></div>
 
 ## License
 
