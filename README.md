@@ -59,11 +59,11 @@ This repository has been tested under the following environment:
   
   (1) Train stacked Scale Aggregation Topology (SAT) networks with channel aggregation block (CAB). 
   ```
-  CUDA_VISIBLE_DEVICES='0' python train.py --network satnet --prefix "./model/model-sat2d3-cab/model" --per-batch-size 16 --lr 1e-4 --lr-epoch-step '20,35,45'
+  CUDA_VISIBLE_DEVICES='0' python train.py --network satnet --prefix ./model/model-sat2d3-cab/model --per-batch-size 16 --lr 1e-4 --lr-epoch-step '20,35,45'
   ```
   (2) Train stacked Hourglass models with parallel and multi-scale (HPM) residual block. 
   ```
-  CUDA_VISIBLE_DEVICES='0' python train.py --network hourglass --prefix "./model/model-hg2d3-hpm/model" --per-batch-size 16 --lr 1e-4 --lr-epoch-step '20,35,45'
+  CUDA_VISIBLE_DEVICES='0' python train.py --network hourglass --prefix ./model/model-hg2d3-hpm/model --per-batch-size 16 --lr 1e-4 --lr-epoch-step '20,35,45'
   ``` 
 
 ## Testing
@@ -81,25 +81,25 @@ This repository has been tested under the following environment:
   1. Evaluate model *Hourglass2(d=3)-CAB* with 2D landmarks on IBUG testset.
   
 ```
-python test_rec_nme.py --dataset 'ibug' --prefix './models/model-hg2d3-cab/model' --epoch 0 --gpu 0 --landmark-type 2d
+python test_rec_nme.py --dataset ibug --prefix ./models/model-hg2d3-cab/model --epoch 0 --gpu 0 --landmark-type 2d
 ```
   
   2. Evaluate model *SAT2(d=3)-CAB* with 2D landmarks on COFW testset.
   
 ```
-python test_rec_nme.py --dataset 'cofw_testset' --prefix './models/model-sat2d3-cab/model' --epoch 0 --gpu 0 --landmark-type 2d
+python test_rec_nme.py --dataset cofw_testset --prefix ./models/model-sat2d3-cab/model --epoch 0 --gpu 0 --landmark-type 2d
 ```
 
   3. Evaluate model *SAT2(d=3)-HPM* with 2D landmarks on 300W testset.
   
 ```
-python test_rec_nme.py --dataset '300W' --prefix './models/model-hg2d3-hpm/model' --epoch 0 --gpu 0 --landmark-type 2d
+python test_rec_nme.py --dataset 300W --prefix ./models/model-hg2d3-hpm/model --epoch 0 --gpu 0 --landmark-type 2d
 ```
   
   4. Evaluate model  *Hourglass2(d=3)-CAB-3D* with 3D landmarks on AFLW2000-3D testset.
   
 ```
-python test_rec_nme.py --dataset 'AFLW2000-3D' --prefix './models/model-hg2d3-cab-3d/model' --epoch 0 --gpu 0 --landmark-type 3d
+python test_rec_nme.py --dataset AFLW2000-3D --prefix ./models/model-hg2d3-cab-3d/model --epoch 0 --gpu 0 --landmark-type 3d
 ```
   
 ## Results
